@@ -5,8 +5,8 @@ Command-line client for The Coverage Space.
 [![Build Status](http://img.shields.io/travis/jacebrowning/coverage-space-cli/develop.svg)](https://travis-ci.org/jacebrowning/coverage-space-cli)
 [![Coverage Status](http://img.shields.io/coveralls/jacebrowning/coverage-space-cli/develop.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli)
 [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=develop)
-[![PyPI Version](http://img.shields.io/pypi/v/coverage.space-cli.svg)](https://pypi.python.org/pypi/coverage.space-cli)
-[![PyPI Downloads](http://img.shields.io/pypi/dm/coverage.space-cli.svg)](https://pypi.python.org/pypi/coverage.space-cli)
+[![PyPI Version](http://img.shields.io/pypi/v/coverage.space.svg)](https://pypi.python.org/pypi/coverage.space)
+[![PyPI Downloads](http://img.shields.io/pypi/dm/coverage.space.svg)](https://pypi.python.org/pypi/coverage.space)
 
 ## Getting Started
 

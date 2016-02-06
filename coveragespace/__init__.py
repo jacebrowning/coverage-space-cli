@@ -2,8 +2,8 @@
 
 import sys
 
-__project__ = 'coverage.space-cli'
-__version__ = '0.0.0'
+__project__ = 'coverage.space'
+__version__ = '0.1.1'
 
 API = 'api.coverage.space'
 CLI = 'coverage.space'
