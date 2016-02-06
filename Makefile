@@ -1,5 +1,5 @@
 # Project settings
-PROJECT := coverage.space-cli
+PROJECT := coverage.space
 PACKAGE := coveragespace
 SOURCES := Makefile setup.py $(shell find $(PACKAGE) -name '*.py')
 
