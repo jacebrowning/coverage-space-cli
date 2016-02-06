@@ -5,6 +5,9 @@ import sys
 __project__ = 'coverage.space-cli'
 __version__ = '0.0.0'
 
+API = 'api.coverage.space'
+CLI = 'coverage.space'
+
 VERSION = "{0} v{1}".format(__project__, __version__)
 
 PYTHON_VERSION = 2, 7

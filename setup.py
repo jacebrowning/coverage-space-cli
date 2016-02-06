@@ -4,7 +4,7 @@
 
 import setuptools
 
-from coveragespace import __project__, __version__
+from coveragespace import __project__, __version__, CLI
 
 try:
     README = open("README.rst").read()
@@ -25,7 +25,9 @@ setuptools.setup(
 
     packages=setuptools.find_packages(),
 
-    entry_points={'console_scripts': []},
+    entry_points={'console_scripts': [
+        CLI + ' = coveragespace.cli:main',
+    ]},
 
     long_description=(DESCRIPTION),
     license='MIT',

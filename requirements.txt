@@ -1,2 +1,5 @@
+six
+mock
+
 docopt
 HTTPie
