@@ -38,14 +38,13 @@ To update the value for a test coverage metric:
 $ coverage.space <owner/repo> <metric>
 ```
 
-For example:
+For example, after testing with code coverage enabled:
 
 ```
 $ coverage.space owner/repo unit
 ```
 
-This will attempt to extract the current coverage data from your working tree.
-The coverage value can also be manually specified:
+will attempt to extract the current coverage data from your working tree and compare that with the last known value. The coverage value can also be manually specified:
 
 ```
 $ coverage.space <owner/repo> <metric> <value>
