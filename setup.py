@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Setup script for coverage.space-cli."""
+"""Setup script for The Coverage Space CLI."""
 
 import setuptools
 
@@ -18,7 +18,7 @@ setuptools.setup(
     name=__project__,
     version=__version__,
 
-    description="Command-line client for The Coverage Space.",
+    description="A place to track your code coverage metrics.",
     url='https://github.com/jacebrowning/coverage-space-cli',
     author='Jace Browning',
     author_email='jacebrowning@gmail.com',
