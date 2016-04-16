@@ -1,5 +1,4 @@
 six
-mock
 
 docopt
 blessings

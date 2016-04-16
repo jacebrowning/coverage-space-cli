@@ -1,15 +1,18 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
-  coverage.space <owner/repo> <metric> [<value>]
+  coverage.space <owner/repo> <metric> [<value>] [--exit-code]
   coverage.space (-h | --help)
   coverage.space (-V | --version)
 
 Options:
-  -h --help     Show this screen.
-  -V --version     Show version.
+  -h --help         Show this help screen.
+  -V --version      Show the program version.
+  --exit-code       Return non-zero exit code on failures.
 
 """
+
+from __future__ import unicode_literals
 
 import sys
 import json
@@ -36,7 +39,8 @@ def main():
 
     success = call(slug, metric, value)
 
-    sys.exit(success)
+    if not success and arguments['--exit-code']:
+        sys.exit(1)
 
 
 def call(slug, metric, value):
@@ -60,6 +64,7 @@ def call(slug, metric, value):
 
 def display(title, data, color=term.normal):
     """Write colored text to the console."""
-    six.print_(color("{t:=^{w}}".format(t=' ' + title + ' ', w=term.width)))
+    width = term.width or 80
+    six.print_(color("{0:=^{1}}".format(' ' + title + ' ', width)))
     six.print_(color(json.dumps(data, indent=4)))
-    six.print_(color('=' * term.width))
+    six.print_(color('=' * width))
