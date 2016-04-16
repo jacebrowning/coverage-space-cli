@@ -19,7 +19,7 @@ Command-line client for The Coverage Space.
 The client can be installed with pip:
 
 ```
-$ pip install coverage.space
+$ pip install --upgrade coverage.space
 ```
 
 or directly from the source code:
