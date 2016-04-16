@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Setup script for coverage.space-cli."""
+"""Setup script for The Coverage Space CLI."""
 
 import setuptools
 
