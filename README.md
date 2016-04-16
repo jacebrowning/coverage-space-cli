@@ -32,12 +32,23 @@ $ python setup.py install
 
 ## Basic Usage
 
-After installation, the package can imported:
+To update the value for a test coverage metric:
 
 ```
-$ python
->>> import coveragespace
->>> coveragespace.__version__
+$ coverage.space <owner/repo> <metric>
+```
+
+For example:
+
+```
+$ coverage.space owner/repo unit
+```
+
+This will attempt to extract the current coverage data from your working tree.
+The coverage value can also be manually specified:
+
+```
+$ coverage.space <owner/repo> <metric> <value>
 ```
 
 ## Documentation

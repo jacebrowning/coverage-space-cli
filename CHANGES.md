@@ -1,8 +1,8 @@
 # Revision History
 
-## 0.2 (unreleased)
+## 0.2 (2016/04/16)
 
-- Added option to return non-zero exit codes.
+- Added the option to return non-zero exit codes.
 
 ## 0.1.1 (2016/02/06)
 
