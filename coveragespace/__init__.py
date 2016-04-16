@@ -5,7 +5,7 @@ import sys
 __project__ = 'coverage.space'
 __version__ = '0.1.1'
 
-API = 'api.coverage.space'
+API = 'http://api.coverage.space'
 CLI = 'coverage.space'
 
 VERSION = "{0} v{1}".format(__project__, __version__)

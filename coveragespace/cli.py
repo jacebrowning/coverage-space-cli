@@ -1,4 +1,4 @@
-"""Update metrics on The Coverage Space using HTTPie.
+"""Update project metrics on The Coverage Space.
 
 Usage:
   coverage.space <owner/repo> <metric> [<value>]
@@ -12,13 +12,18 @@ Options:
 """
 
 import sys
-import subprocess
+import json
 
+import six
 from docopt import docopt
+import blessings
+import requests
 
 from . import API, VERSION
 
 from .plugins import get_coverage
+
+term = blessings.Terminal()
 
 
 def main():
@@ -29,18 +34,32 @@ def main():
     metric = arguments['<metric>']
     value = arguments.get('<value>') or get_coverage()
 
-    status = call(slug, metric, value)
+    success = call(slug, metric, value)
 
-    sys.exit(status)
+    sys.exit(success)
 
 
 def call(slug, metric, value):
-    """Call HTTPie."""
-
+    """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
-    param = "{}={}".format(metric, value)
-    args = ['http', 'put', url, param, '--check-status']
-    print('\n' + "$ " + ' '.join(args) + '\n')
-    status = subprocess.call(args)
+    data = {metric: value}
 
-    return status
+    response = requests.put(url, data=data)
+
+    if response.status_code == 200:
+        return True
+
+    elif response.status_code == 422:
+        display("coverage decreased", response.json(), term.bold_yellow)
+        return False
+
+    else:
+        display("coverage unknown", response.json(), term.bold_red)
+        return False
+
+
+def display(title, data, color=term.normal):
+    """Write colored text to the console."""
+    six.print_(color("{t:=^{w}}".format(t=' ' + title + ' ', w=term.width)))
+    six.print_(color(json.dumps(data, indent=4)))
+    six.print_(color('=' * term.width))
