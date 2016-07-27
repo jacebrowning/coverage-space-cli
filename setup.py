@@ -8,11 +8,11 @@ from coveragespace import __project__, __version__, CLI
 
 try:
     README = open("README.rst").read()
-    CHANGES = open("CHANGES.rst").read()
+    CHANGELOG = open("CHANGELOG.rst").read()
 except IOError:
-    DESCRIPTION = "<placeholder>"
+    LONG_DESCRIPTION = "<placeholder>"
 else:
-    DESCRIPTION = README + '\n' + CHANGES
+    LONG_DESCRIPTION = README + '\n' + CHANGELOG
 
 setuptools.setup(
     name=__project__,
@@ -29,7 +29,7 @@ setuptools.setup(
         CLI + ' = coveragespace.cli:main',
     ]},
 
-    long_description=(DESCRIPTION),
+    long_description=LONG_DESCRIPTION,
     license='MIT',
     classifiers=[
         # TODO: update this list to match your application: https://pypi.python.org/pypi?%3Aaction=list_classifiers
