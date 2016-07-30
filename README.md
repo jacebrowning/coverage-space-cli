@@ -2,11 +2,7 @@
 
 Command-line client for The Coverage Space.
 
-[![Build Status](http://img.shields.io/travis/jacebrowning/coverage-space-cli/develop.svg)](https://travis-ci.org/jacebrowning/coverage-space-cli)
-[![Coverage Status](http://img.shields.io/coveralls/jacebrowning/coverage-space-cli/develop.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli)
-[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=develop)
-[![PyPI Version](http://img.shields.io/pypi/v/coverage.space.svg)](https://pypi.python.org/pypi/coverage.space)
-[![PyPI Downloads](http://img.shields.io/pypi/dm/coverage.space.svg)](https://pypi.python.org/pypi/coverage.space)
+Unix: [![Unix Build Status](http://img.shields.io/travis/jacebrowning/coverage-space-cli/develop.svg)](https://travis-ci.org/jacebrowning/coverage-space-cli) Windows: [![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/coverage-space-cli/develop.svg)](https://ci.appveyor.com/project/jacebrowning/coverage-space-cli)<br>Metrics: [![Coverage Status](http://img.shields.io/coveralls/jacebrowning/coverage-space-cli/develop.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli) [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=develop)<br>Usage: [![PyPI Version](http://img.shields.io/pypi/v/PythonTemplateDemo.svg)](https://pypi.python.org/pypi/PythonTemplateDemo) [![PyPI Downloads](http://img.shields.io/pypi/dm/PythonTemplateDemo.svg)](https://pypi.python.org/pypi/PythonTemplateDemo)
 
 ## Getting Started
 
