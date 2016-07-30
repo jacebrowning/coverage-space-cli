@@ -14,23 +14,24 @@ Options:
 
 from __future__ import unicode_literals
 
+import os
 import sys
 import json
 
 import six
 from docopt import docopt
-import blessings
+import colorama
+from colorama import Fore, Style
 import requests
 
 from . import API, VERSION
 
 from .plugins import get_coverage
 
-term = blessings.Terminal()
-
 
 def main():
     """Run the program."""
+    colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
 
     slug = arguments['<owner/repo>']
@@ -54,17 +55,19 @@ def call(slug, metric, value):
         return True
 
     elif response.status_code == 422:
-        display("coverage decreased", response.json(), term.bold_yellow)
+        display("coverage decreased", response.json(),
+                Fore.YELLOW + Style.BRIGHT)
         return False
 
     else:
-        display("coverage unknown", response.json(), term.bold_red)
+        display("coverage unknown", response.json(),
+                Fore.RED + Style.BRIGHT)
         return False
 
 
-def display(title, data, color=term.normal):
+def display(title, data, color=""):
     """Write colored text to the console."""
-    width = term.width or 80
-    six.print_(color("{0:=^{1}}".format(' ' + title + ' ', width)))
-    six.print_(color(json.dumps(data, indent=4)))
-    six.print_(color('=' * width))
+    width = int(os.getenv('COLUMNS', 80))
+    six.print_(color + "{0:=^{1}}".format(' ' + title + ' ', width))
+    six.print_(color + json.dumps(data, indent=4))
+    six.print_(color + '=' * width)
