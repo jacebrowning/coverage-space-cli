@@ -15,4 +15,3 @@ scripttest
 
 # Coverage
 coverage
-coverage.space
