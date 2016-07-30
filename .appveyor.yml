@@ -20,7 +20,7 @@ install:
   - set PATH=%PATH%;C:\MinGW\bin
   - make --version
   # Install project dependencies
-  - make env
+  - touch setup.py && make env
   - make depends
 
 build: off
