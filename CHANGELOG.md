@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.3 (2016/07/30)
+
+- Added Windows support.
+
 ## 0.2 (2016/04/16)
 
 - Added the option to return non-zero exit codes.
