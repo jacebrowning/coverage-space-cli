@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.3.1 (2016/08/19)
+
+- Fixed terminal width detection.
+
 ## 0.3 (2016/07/30)
 
 - Added Windows support.
