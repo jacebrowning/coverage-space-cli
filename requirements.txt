@@ -3,3 +3,4 @@ six
 docopt
 colorama
 requests
+backports.shutil-get-terminal-size

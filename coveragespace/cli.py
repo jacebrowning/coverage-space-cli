@@ -14,15 +14,14 @@ Options:
 
 from __future__ import unicode_literals
 
-import os
 import sys
 import json
 
 import six
 from docopt import docopt
-import colorama
-from colorama import Fore, Style
 import requests
+import colorama
+from backports.shutil_get_terminal_size import get_terminal_size
 
 from . import API, VERSION
 
@@ -56,18 +55,18 @@ def call(slug, metric, value):
 
     elif response.status_code == 422:
         display("coverage decreased", response.json(),
-                Fore.YELLOW + Style.BRIGHT)
+                colorama.Fore.YELLOW + colorama.Style.BRIGHT)
         return False
 
     else:
         display("coverage unknown", response.json(),
-                Fore.RED + Style.BRIGHT)
+                colorama.Fore.RED + colorama.Style.BRIGHT)
         return False
 
 
 def display(title, data, color=""):
     """Write colored text to the console."""
-    width = int(os.getenv('COLUMNS', 80))
+    width, _ = get_terminal_size()
     six.print_(color + "{0:=^{1}}".format(' ' + title + ' ', width))
     six.print_(color + json.dumps(data, indent=4))
     six.print_(color + '=' * width)

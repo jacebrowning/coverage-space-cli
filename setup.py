@@ -51,4 +51,7 @@ setuptools.setup(
     ],
 
     install_requires=open("requirements.txt").readlines(),
+    dependency_links = [
+        'https://github.com/chrippa/backports.shutil_get_terminal_size/tarball/159e269450dbf37c3a837f6ea7e628d59acbb96a#egg=backports.shutil-get-terminal-size'
+    ]
 )
