@@ -1,6 +1,6 @@
 # Revision History
 
-## 0.4 (unreleased)
+## 0.4 (2016/08/22)
 
 - Added client-side caching to reduce network traffic.
 - Added an option to always display coverage metrics.
