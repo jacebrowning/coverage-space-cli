@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.4 (unreleased)
+
+- Added client-side caching to reduce network traffic.
+
 ## 0.3.1 (2016/08/19)
 
 - Fixed terminal width detection.

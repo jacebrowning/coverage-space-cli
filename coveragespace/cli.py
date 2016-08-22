@@ -26,6 +26,10 @@ from backports.shutil_get_terminal_size import get_terminal_size
 from . import API, VERSION
 
 from .plugins import get_coverage
+from .cache import Cache
+
+
+cache = Cache()
 
 
 def main():
@@ -48,7 +52,10 @@ def call(slug, metric, value):
     url = "{}/{}".format(API, slug)
     data = {metric: value}
 
-    response = requests.put(url, data=data)
+    response = cache.get(url, data)
+    if response is None:
+        response = requests.put(url, data=data)
+        cache.set(url, data, response)
 
     if response.status_code == 200:
         return True
