@@ -3,6 +3,7 @@
 ## 0.4 (unreleased)
 
 - Added client-side caching to reduce network traffic.
+- Added an option to always display coverage metrics.
 
 ## 0.3.1 (2016/08/19)
 

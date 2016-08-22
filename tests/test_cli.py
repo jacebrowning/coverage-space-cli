@@ -54,3 +54,10 @@ def describe_cli():
         expect(cmd.returncode) == 1
         expect(cmd.stderr) == ""
         expect(cmd.stdout).contains("coverage decreased")
+
+    def it_always_display_metrics_when_verbose(env):
+        cmd = cli(env, SLUG, 'unit', '100', '--verbose')
+
+        expect(cmd.returncode) == 0
+        expect(cmd.stderr) == ""
+        expect(cmd.stdout).contains("coverage increased")
