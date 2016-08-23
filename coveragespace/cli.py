@@ -1,13 +1,14 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
-  coverage.space <owner/repo> <metric> [<value>] [--exit-code]
+  coverage.space <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
   coverage.space (-h | --help)
   coverage.space (-V | --version)
 
 Options:
   -h --help         Show this help screen.
   -V --version      Show the program version.
+  -v --verbose      Always display the coverage metrics.
   --exit-code       Return non-zero exit code on failures.
 
 """
@@ -26,6 +27,10 @@ from backports.shutil_get_terminal_size import get_terminal_size
 from . import API, VERSION
 
 from .plugins import get_coverage
+from .cache import Cache
+
+
+cache = Cache()
 
 
 def main():
@@ -36,21 +41,28 @@ def main():
     slug = arguments['<owner/repo>']
     metric = arguments['<metric>']
     value = arguments.get('<value>') or get_coverage()
+    verbose = arguments.get('--verbose')
 
-    success = call(slug, metric, value)
+    success = call(slug, metric, value, verbose)
 
     if not success and arguments['--exit-code']:
         sys.exit(1)
 
 
-def call(slug, metric, value):
+def call(slug, metric, value, verbose=False):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
     data = {metric: value}
 
-    response = requests.put(url, data=data)
+    response = cache.get(url, data)
+    if response is None:
+        response = requests.put(url, data=data)
+        cache.set(url, data, response)
 
     if response.status_code == 200:
+        if verbose:
+            display("coverage increased", response.json(),
+                    colorama.Fore.GREEN + colorama.Style.BRIGHT)
         return True
 
     elif response.status_code == 422:
