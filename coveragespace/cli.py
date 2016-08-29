@@ -40,16 +40,17 @@ def main():
 
     slug = arguments['<owner/repo>']
     metric = arguments['<metric>']
-    value = arguments.get('<value>') or get_coverage()
-    verbose = arguments.get('--verbose')
+    value = arguments['<value>'] or get_coverage()
+    verbose = arguments['--verbose']
+    hardfail = arguments['--exit-code']
 
-    success = call(slug, metric, value, verbose)
+    success = call(slug, metric, value, verbose, hardfail)
 
-    if not success and arguments['--exit-code']:
+    if not success and hardfail:
         sys.exit(1)
 
 
-def call(slug, metric, value, verbose=False):
+def call(slug, metric, value, verbose=False, hardfail=False):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
     data = {metric: value}
@@ -61,23 +62,22 @@ def call(slug, metric, value, verbose=False):
 
     if response.status_code == 200:
         if verbose:
-            display("coverage increased", response.json(),
-                    colorama.Fore.GREEN + colorama.Style.BRIGHT)
+            display("coverage increased", response.json(), colorama.Fore.GREEN)
         return True
 
     elif response.status_code == 422:
-        display("coverage decreased", response.json(),
-                colorama.Fore.YELLOW + colorama.Style.BRIGHT)
+        color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
+        display("coverage decreased", response.json(), color)
         return False
 
     else:
-        display("coverage unknown", response.json(),
-                colorama.Fore.RED + colorama.Style.BRIGHT)
+        display("coverage unknown", response.json(), colorama.Fore.RED)
         return False
 
 
 def display(title, data, color=""):
     """Write colored text to the console."""
+    color += colorama.Style.BRIGHT
     width, _ = get_terminal_size()
     six.print_(color + "{0:=^{1}}".format(' ' + title + ' ', width))
     six.print_(color + json.dumps(data, indent=4))
