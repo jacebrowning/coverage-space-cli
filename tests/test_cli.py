@@ -59,5 +59,5 @@ def describe_cli():
         cmd = cli(env, SLUG, 'unit', '100', '--verbose')
 
         expect(cmd.returncode) == 0
-        expect(cmd.stderr) == ""
+        expect(cmd.stderr) != ""  # expect lots of logging
         expect(cmd.stdout).contains("coverage increased")
