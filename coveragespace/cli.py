@@ -9,7 +9,7 @@ Options:
   -h --help         Show this help screen.
   -V --version      Show the program version.
   -v --verbose      Always display the coverage metrics.
-  --exit-code       Return non-zero exit code on failures.
+  -x --exit-code    Return non-zero exit code on failures.
 
 """
 
