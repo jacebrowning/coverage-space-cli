@@ -1,6 +1,6 @@
 environment:
   global:
-    RANDOM_SEED: 12345
+    RANDOM_SEED: 0
   matrix:
     - PYTHON_MAJOR: 2
       PYTHON_MINOR: 7
@@ -20,8 +20,7 @@ install:
   - set PATH=%PATH%;C:\MinGW\bin
   - make --version
   # Install project dependencies
-  - touch setup.py && make env
-  - make depends
+  - make install
 
 build: off
 
