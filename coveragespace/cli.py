@@ -91,10 +91,10 @@ def request(url, data):
 
     response = cache.get(url, data)
     if response is None:
-        for _ in range(2):
+        for _ in range(3):
             response = requests.put(url, data=data)
             if response.status_code == 500:
-                time.sleep(1)
+                time.sleep(3)
                 continue
             else:
                 break

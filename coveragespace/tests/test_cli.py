@@ -21,4 +21,4 @@ def describe_call():
 
         cli.call('slug', 'metric', 42)
 
-        expect(requests_put.call_count) == 2
+        expect(requests_put.call_count) == 3
