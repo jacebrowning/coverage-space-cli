@@ -9,14 +9,16 @@ Options:
   -h --help         Show this help screen.
   -V --version      Show the program version.
   -v --verbose      Always display the coverage metrics.
-  --exit-code       Return non-zero exit code on failures.
+  -x --exit-code    Return non-zero exit code on failures.
 
 """
 
 from __future__ import unicode_literals
 
 import sys
+import time
 import json
+import logging
 
 import six
 from docopt import docopt
@@ -30,6 +32,7 @@ from .plugins import get_coverage
 from .cache import Cache
 
 
+log = logging.getLogger(__name__)
 cache = Cache()
 
 
@@ -44,6 +47,12 @@ def main():
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
+    if verbose:
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format="%(levelname)s: %(name)s: %(message)s",
+        )
+
     success = call(slug, metric, value, verbose, hardfail)
 
     if not success and hardfail:
@@ -54,11 +63,7 @@ def call(slug, metric, value, verbose=False, hardfail=False):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
     data = {metric: value}
-
-    response = cache.get(url, data)
-    if response is None:
-        response = requests.put(url, data=data)
-        cache.set(url, data, response)
+    response = request(url, data)
 
     if response.status_code == 200:
         if verbose:
@@ -71,8 +76,33 @@ def call(slug, metric, value, verbose=False, hardfail=False):
         return False
 
     else:
-        display("coverage unknown", response.json(), colorama.Fore.RED)
+        try:
+            data = response.json()
+            display("coverage unknown", data, colorama.Fore.RED)
+        except (TypeError, ValueError) as exc:
+            data = response.data.decode('utf-8')
+            log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
         return False
+
+
+def request(url, data):
+    """Make request to external API."""
+    log.info("Updating %s: %s", url, data)
+
+    response = cache.get(url, data)
+    if response is None:
+        for _ in range(2):
+            response = requests.put(url, data=data)
+            if response.status_code == 500:
+                time.sleep(1)
+                continue
+            else:
+                break
+        cache.set(url, data, response)
+
+    log.info("Response: %s", response)
+
+    return response
 
 
 def display(title, data, color=""):
