@@ -17,6 +17,7 @@ from __future__ import unicode_literals
 
 import sys
 import json
+import logging
 
 import six
 from docopt import docopt
@@ -30,6 +31,7 @@ from .plugins import get_coverage
 from .cache import Cache
 
 
+log = logging.getLogger(__name__)
 cache = Cache()
 
 
@@ -44,6 +46,12 @@ def main():
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
+    if verbose:
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format="%(levelname)s: %(name)s: %(message)s",
+        )
+
     success = call(slug, metric, value, verbose, hardfail)
 
     if not success and hardfail:
@@ -55,10 +63,12 @@ def call(slug, metric, value, verbose=False, hardfail=False):
     url = "{}/{}".format(API, slug)
     data = {metric: value}
 
+    log.info("Updating %s: %s", url, data)
     response = cache.get(url, data)
     if response is None:
         response = requests.put(url, data=data)
         cache.set(url, data, response)
+    log.info("Response: %s", response)
 
     if response.status_code == 200:
         if verbose:
@@ -71,7 +81,12 @@ def call(slug, metric, value, verbose=False, hardfail=False):
         return False
 
     else:
-        display("coverage unknown", response.json(), colorama.Fore.RED)
+        try:
+            data = response.json()
+            display("coverage unknown", data, colorama.Fore.RED)
+        except (TypeError, ValueError) as exc:
+            data = response.data.decode('utf-8')
+            log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
         return False
 
 

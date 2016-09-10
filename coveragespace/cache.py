@@ -1,5 +1,9 @@
 import os
 import pickle
+import logging
+
+
+log = logging.getLogger(__name__)
 
 
 class Cache(object):
@@ -36,12 +40,17 @@ class Cache(object):
 
     def set(self, url, data, response):
         slug = self._slugify(url, data)
+        log.debug("Setting cache for %s: %s", url, data)
         self._data[slug] = response
+        log.debug("Cached value: %s", response)
         self._store()
 
     def get(self, url, data):
+        log.debug("Getting cache for %s: %s", url, data)
         slug = self._slugify(url, data)
-        return self._data.get(slug)
+        value = self._data.get(slug)
+        log.debug("Cached value: %s", value)
+        return value
 
     @staticmethod
     def _slugify(url, data):
