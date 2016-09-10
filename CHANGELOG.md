@@ -1,5 +1,10 @@
 # Revision History
 
+## 0.5 (2016/09/09)
+
+- Added logging to debug errors with the `--version` option.
+- Added retry logic in cases where the API returns server errors.
+
 ## 0.4 (2016/08/22)
 
 - Added client-side caching to reduce network traffic.
