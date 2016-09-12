@@ -61,3 +61,12 @@ def describe_cli():
         expect(cmd.returncode) == 0
         expect(cmd.stderr) != ""  # expect lots of logging
         expect(cmd.stdout).contains("coverage increased")
+
+    def it_skips_when_running_on_ci(env):
+        env.environ['CIRCLECI'] = 'true'
+
+        cmd = cli(env, SLUG, 'unit', '0', '--exit-code')
+
+        expect(cmd.returncode) == 0
+        expect(cmd.stderr).contains("Command skipped")
+        expect(cmd.stdout) == ""
