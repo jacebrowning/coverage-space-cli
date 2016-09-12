@@ -165,31 +165,19 @@ test-unit: install ## Run the unit tests
 	@- mv $(FAILURES) $(FAILURES).bak
 	$(PYTEST) $(PYTEST_OPTS) $(PACKAGE) --junitxml=$(REPORTS)/unit.xml
 	@- mv $(FAILURES).bak $(FAILURES)
-ifndef TRAVIS
-ifndef APPVEYOR
 	$(COVERAGE_SPACE) $(REPOSITORY) unit
-endif
-endif
 
 .PHONY: test-int
 test-int: install ## Run the integration tests
 	@ if test -e $(FAILURES); then $(PYTEST) $(PYTEST_OPTS_FAILFAST) tests; fi
 	$(PYTEST) $(PYTEST_OPTS) tests --junitxml=$(REPORTS)/integration.xml
-ifndef TRAVIS
-ifndef APPVEYOR
 	$(COVERAGE_SPACE) $(REPOSITORY) integration
-endif
-endif
 
 .PHONY: test-all
 test-all: install ## Run all the tests
 	@ if test -e $(FAILURES); then $(PYTEST) $(PYTEST_OPTS_FAILFAST) $(PACKAGES); fi
 	$(PYTEST) $(PYTEST_OPTS) $(PACKAGES) --junitxml=$(REPORTS)/overall.xml
-ifndef TRAVIS
-ifndef APPVEYOR
 	$(COVERAGE_SPACE) $(REPOSITORY) overall
-endif
-endif
 
 .PHONY: read-coverage
 read-coverage:

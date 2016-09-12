@@ -27,7 +27,7 @@ import colorama
 from backports.shutil_get_terminal_size import get_terminal_size
 
 from . import API, VERSION
-
+from . import services
 from .plugins import get_coverage
 from .cache import Cache
 
@@ -37,7 +37,7 @@ cache = Cache()
 
 
 def main():
-    """Run the program."""
+    """Parse command-line arguments, configure logging, and run the program."""
     colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
 
@@ -47,16 +47,24 @@ def main():
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
-    if verbose:
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format="%(levelname)s: %(name)s: %(message)s",
-        )
+    logging.basicConfig(
+        level=logging.DEBUG if verbose else logging.WARNING,
+        format="%(levelname)s: %(name)s: %(message)s",
+    )
 
-    success = call(slug, metric, value, verbose, hardfail)
+    success = run(slug, metric, value, verbose, hardfail)
 
     if not success and hardfail:
         sys.exit(1)
+
+
+def run(*args, **kwargs):
+    """Run the program."""
+    if services.detected():
+        log.warning("Command skipped when running on CI service")
+        return True
+    else:
+        return call(*args, **kwargs)
 
 
 def call(slug, metric, value, verbose=False, hardfail=False):
