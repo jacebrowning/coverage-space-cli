@@ -16,7 +16,10 @@ SLUG = "jacebrowning/coverage-space-cli-demo"
 @pytest.fixture
 def env(tmpdir):
     path = str(tmpdir.join('test'))
-    return scripttest.TestFileEnvironment(path)
+    env = scripttest.TestFileEnvironment(path)
+    env.environ.pop('TRAVIS', None)
+    env.environ.pop('APPVEYOR', None)
+    return env
 
 
 def cli(env, *args):
