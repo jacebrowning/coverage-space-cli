@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.6 (2016/09/12)
+
+- Added no-op when running on CI services.
+
 ## 0.5 (2016/09/09)
 
 - Added logging to debug errors with the `--version` option.
