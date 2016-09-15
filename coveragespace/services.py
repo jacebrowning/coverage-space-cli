@@ -5,6 +5,10 @@ import os
 
 CONTINUOUS_INTEGRATION = [
 
+    # General
+    'CI',
+    'CONTINUOUS_INTEGRATION',
+
     # Travis CI
     'TRAVIS',
 
