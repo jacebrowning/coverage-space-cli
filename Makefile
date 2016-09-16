@@ -233,12 +233,14 @@ PYINSTALLER_MAKESPEC := $(BIN_)pyi-makespec
 .PHONY: sdist
 sdist: install dist/*.tar.gz
 dist/*.tar.gz: $(MODULES) README.rst CHANGELOG.rst
+	rm -rf dist/*.tar.gz
 	$(PYTHON) setup.py check --restructuredtext --strict --metadata
 	$(PYTHON) setup.py sdist
 
 .PHONY: bdist
 bdist: install dist/*.whl
 dist/*.whl: $(MODULES) README.rst CHANGELOG.rst
+	rm -rf dist/*.whl
 	$(PYTHON) setup.py check --restructuredtext --strict --metadata
 	$(PYTHON) setup.py bdist_wheel
 

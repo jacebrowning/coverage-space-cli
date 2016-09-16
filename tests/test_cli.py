@@ -17,6 +17,8 @@ SLUG = "jacebrowning/coverage-space-cli-demo"
 def env(tmpdir):
     path = str(tmpdir.join('test'))
     env = scripttest.TestFileEnvironment(path)
+    env.environ.pop('CI', None)
+    env.environ.pop('CONTINUOUS_INTEGRATION', None)
     env.environ.pop('TRAVIS', None)
     env.environ.pop('APPVEYOR', None)
     return env
@@ -66,10 +68,10 @@ def describe_cli():
         expect(cmd.stdout).contains("coverage increased")
 
     def it_skips_when_running_on_ci(env):
-        env.environ['CIRCLECI'] = 'true'
+        env.environ['CI'] = 'true'
 
         cmd = cli(env, SLUG, 'unit', '0', '--exit-code')
 
         expect(cmd.returncode) == 0
-        expect(cmd.stderr).contains("Command skipped")
+        expect(cmd.stderr).contains("Coverate check skipped")
         expect(cmd.stdout) == ""
