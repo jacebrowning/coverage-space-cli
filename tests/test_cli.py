@@ -73,5 +73,5 @@ def describe_cli():
         cmd = cli(env, SLUG, 'unit', '0', '--exit-code')
 
         expect(cmd.returncode) == 0
-        expect(cmd.stderr).contains("Command skipped")
+        expect(cmd.stderr).contains("Coverate check skipped")
         expect(cmd.stdout) == ""
