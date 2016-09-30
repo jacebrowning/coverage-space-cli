@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.6.2 (2016/09/29)
+
+- Updated API call to use SSL.
+
 ## 0.6.1 (2016/09/16)
 
 - Added no-op when running on CI services.
