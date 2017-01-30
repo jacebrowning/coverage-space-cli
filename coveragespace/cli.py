@@ -85,7 +85,10 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
 
     elif response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
-        display("coverage decreased", response.json(), color)
+        data = response.json()
+        data['help'] = \
+            "To reset metrics, run: coverage.space {} --reset".format(slug)
+        display("coverage decreased", data, color)
         return False
 
     else:
