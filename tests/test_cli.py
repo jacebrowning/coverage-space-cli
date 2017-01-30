@@ -89,7 +89,7 @@ def describe_cli():
             return SLUG + "/reset"
 
         def it_can_reset_metrics(env, slug):
-            cmd = cli(env, slug, 'unit', '--reset')
+            cmd = cli(env, slug, '--reset')
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""

@@ -2,7 +2,7 @@
 
 Usage:
   coverage.space <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
-  coverage.space <owner/repo> <metric> --reset [--verbose]
+  coverage.space <owner/repo> --reset [--verbose]
   coverage.space (-h | --help)
   coverage.space (-V | --version)
 
