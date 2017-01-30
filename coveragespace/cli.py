@@ -61,7 +61,7 @@ def main():
 def run(*args, **kwargs):
     """Run the program."""
     if services.detected():
-        log.warning("Coverate check skipped when running on CI service")
+        log.warning("Coverage check skipped when running on CI service")
         return True
     else:
         return call(*args, **kwargs)
