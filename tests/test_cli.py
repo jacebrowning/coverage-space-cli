@@ -39,39 +39,58 @@ def describe_cli():
         expect(cmd.returncode) == 1
         expect(cmd.stderr).contains("Usage:")
 
-    def it_can_update_metrics(env):
-        cmd = cli(env, SLUG, 'unit', '100')
+    def describe_update():
 
-        expect(cmd.returncode) == 0
-        expect(cmd.stderr) == ""
-        expect(cmd.stdout) == ""
+        @pytest.fixture
+        def slug():
+            return SLUG + "/update"
 
-    def it_indicates_when_metrics_decrease(env):
-        cmd = cli(env, SLUG, 'unit', '0')
+        def it_can_update_metrics(env, slug):
+            cmd = cli(env, slug, 'unit', '100')
 
-        expect(cmd.returncode) == 0
-        expect(cmd.stderr) == ""
-        expect(cmd.stdout).contains("coverage decreased")
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr) == ""
+            expect(cmd.stdout) == ""
 
-    def it_fails_when_metrics_decrease_if_requested(env):
-        cmd = cli(env, SLUG, 'unit', '0', '--exit-code')
+        def it_indicates_when_metrics_decrease(env, slug):
+            cmd = cli(env, slug, 'unit', '0')
 
-        expect(cmd.returncode) == 1
-        expect(cmd.stderr) == ""
-        expect(cmd.stdout).contains("coverage decreased")
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr) == ""
+            expect(cmd.stdout).contains("coverage decreased")
 
-    def it_always_display_metrics_when_verbose(env):
-        cmd = cli(env, SLUG, 'unit', '100', '--verbose')
+        def it_fails_when_metrics_decrease_if_requested(env, slug):
+            cmd = cli(env, slug, 'unit', '0', '--exit-code')
 
-        expect(cmd.returncode) == 0
-        expect(cmd.stderr) != ""  # expect lots of logging
-        expect(cmd.stdout).contains("coverage increased")
+            expect(cmd.returncode) == 1
+            expect(cmd.stderr) == ""
+            expect(cmd.stdout).contains("coverage decreased")
 
-    def it_skips_when_running_on_ci(env):
-        env.environ['CI'] = 'true'
+        def it_always_display_metrics_when_verbose(env, slug):
+            cmd = cli(env, slug, 'unit', '100', '--verbose')
 
-        cmd = cli(env, SLUG, 'unit', '0', '--exit-code')
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr) != ""  # expect lots of logging
+            expect(cmd.stdout).contains("coverage increased")
 
-        expect(cmd.returncode) == 0
-        expect(cmd.stderr).contains("Coverage check skipped")
-        expect(cmd.stdout) == ""
+        def it_skips_when_running_on_ci(env, slug):
+            env.environ['CI'] = 'true'
+
+            cmd = cli(env, slug, 'unit', '0', '--exit-code')
+
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr).contains("Coverage check skipped")
+            expect(cmd.stdout) == ""
+
+    def describe_reset():
+
+        @pytest.fixture
+        def slug():
+            return SLUG + "/reset"
+
+        def it_can_reset_metrics(env, slug):
+            cmd = cli(env, slug, 'unit', '--reset')
+
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr) == ""
+            expect(cmd.stdout).contains("coverage reset")
