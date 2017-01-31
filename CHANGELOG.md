@@ -1,5 +1,13 @@
 # Revision History
 
+## 0.7 (2017/01/31)
+
+- Added `--reset` command to reset all coverage metrics.
+
+## 0.6.3 (2016/09/30)
+
+- Fixed dependency on `coverage`.
+
 ## 0.6.2 (2016/09/29)
 
 - Updated API call to use SSL.

@@ -4,3 +4,5 @@ docopt ~= 0.6
 colorama ~= 0.3
 requests ~= 2.0
 backports.shutil-get-terminal-size
+
+coverage

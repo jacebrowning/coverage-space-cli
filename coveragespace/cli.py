@@ -2,6 +2,7 @@
 
 Usage:
   coverage.space <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
+  coverage.space <owner/repo> --reset [--verbose]
   coverage.space (-h | --help)
   coverage.space (-V | --version)
 
@@ -16,24 +17,20 @@ Options:
 from __future__ import unicode_literals
 
 import sys
-import time
 import json
 import logging
 
 import six
 from docopt import docopt
-import requests
 import colorama
 from backports.shutil_get_terminal_size import get_terminal_size
 
 from . import API, VERSION
-from . import services
+from . import services, client
 from .plugins import get_coverage
-from .cache import Cache
 
 
 log = logging.getLogger(__name__)
-cache = Cache()
 
 
 def main():
@@ -43,7 +40,8 @@ def main():
 
     slug = arguments['<owner/repo>']
     metric = arguments['<metric>']
-    value = arguments['<value>'] or get_coverage()
+    reset = arguments['--reset']
+    value = arguments['<value>'] or (None if reset else get_coverage())
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
@@ -52,7 +50,7 @@ def main():
         format="%(levelname)s: %(name)s: %(message)s",
     )
 
-    success = run(slug, metric, value, verbose, hardfail)
+    success = run(slug, metric, value, reset, verbose, hardfail)
 
     if not success and hardfail:
         sys.exit(1)
@@ -61,26 +59,36 @@ def main():
 def run(*args, **kwargs):
     """Run the program."""
     if services.detected():
-        log.warning("Coverate check skipped when running on CI service")
+        log.warning("Coverage check skipped when running on CI service")
         return True
     else:
         return call(*args, **kwargs)
 
 
-def call(slug, metric, value, verbose=False, hardfail=False):
+def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
     data = {metric: value}
-    response = request(url, data)
+    if reset:
+        response = client.delete(url, data)
+    else:
+        response = client.get(url, data)
 
     if response.status_code == 200:
         if verbose:
             display("coverage increased", response.json(), colorama.Fore.GREEN)
         return True
 
+    elif response.status_code == 202:
+        display("coverage reset", response.json(), colorama.Fore.BLUE)
+        return True
+
     elif response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
-        display("coverage decreased", response.json(), color)
+        data = response.json()
+        data['help'] = \
+            "To reset metrics, run: coverage.space {} --reset".format(slug)
+        display("coverage decreased", data, color)
         return False
 
     else:
@@ -91,26 +99,6 @@ def call(slug, metric, value, verbose=False, hardfail=False):
             data = response.data.decode('utf-8')
             log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
         return False
-
-
-def request(url, data):
-    """Make request to external API."""
-    log.info("Updating %s: %s", url, data)
-
-    response = cache.get(url, data)
-    if response is None:
-        for _ in range(3):
-            response = requests.put(url, data=data)
-            if response.status_code == 500:
-                time.sleep(3)
-                continue
-            else:
-                break
-        cache.set(url, data, response)
-
-    log.info("Response: %s", response)
-
-    return response
 
 
 def display(title, data, color=""):
