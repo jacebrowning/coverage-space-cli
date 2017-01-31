@@ -1,6 +1,6 @@
 # Revision History
 
-## 0.7 (unreleased)
+## 0.7 (2017/01/31)
 
 - Added `--reset` command to reset all coverage metrics.
 
