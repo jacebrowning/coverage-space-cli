@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.7.1 (2017/03/11)
+
+- Delayed coverage loading until needed to allow faster exits.
+
 ## 0.7 (2017/01/31)
 
 - Added `--reset` command to reset all coverage metrics.

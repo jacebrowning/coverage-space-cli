@@ -41,7 +41,7 @@ def main():
     slug = arguments['<owner/repo>']
     metric = arguments['<metric>']
     reset = arguments['--reset']
-    value = arguments['<value>'] or (None if reset else get_coverage())
+    value = arguments['<value>']
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
@@ -59,7 +59,7 @@ def main():
 def run(*args, **kwargs):
     """Run the program."""
     if services.detected():
-        log.warning("Coverage check skipped when running on CI service")
+        log.info("Coverage check skipped when running on CI service")
         return True
     else:
         return call(*args, **kwargs)
@@ -68,10 +68,11 @@ def run(*args, **kwargs):
 def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
-    data = {metric: value}
     if reset:
+        data = {metric: None}
         response = client.delete(url, data)
     else:
+        data = {metric: value or get_coverage()}
         response = client.get(url, data)
 
     if response.status_code == 200:
