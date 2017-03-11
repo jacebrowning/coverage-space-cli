@@ -1,6 +1,6 @@
 # Revision History
 
-## 0.7.1 (unreleased)
+## 0.7.1 (2017/03/11)
 
 - Delayed coverage loading until needed to allow faster exits.
 
