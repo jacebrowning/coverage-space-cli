@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.7.2 (2017/03/11)
+
+- Allow coverage to be disabled with `DISABLE_COVERAGE`.
+
 ## 0.7.1 (2017/03/11)
 
 - Delayed coverage loading until needed to allow faster exits.
