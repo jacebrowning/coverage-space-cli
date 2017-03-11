@@ -79,7 +79,7 @@ def describe_cli():
         def it_skips_when_running_on_ci(env, slug):
             env.environ['CI'] = 'true'
 
-            cmd = cli(env, slug, 'unit', '0', '--exit-code')
+            cmd = cli(env, slug, 'unit', '0', '--exit-code', '--verbose')
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr).contains("Coverage check skipped")

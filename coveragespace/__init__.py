@@ -3,7 +3,7 @@
 import sys
 
 __project__ = 'coverage.space'
-__version__ = '0.7'
+__version__ = '0.7.1b1'
 
 API = 'https://api.coverage.space'
 
