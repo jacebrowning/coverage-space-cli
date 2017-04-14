@@ -8,6 +8,7 @@ CONTINUOUS_INTEGRATION = [
     # General
     'CI',
     'CONTINUOUS_INTEGRATION',
+    'DISABLE_COVERAGE',
 
     # Travis CI
     'TRAVIS',
