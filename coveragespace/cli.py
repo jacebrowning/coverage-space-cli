@@ -27,7 +27,7 @@ from backports.shutil_get_terminal_size import get_terminal_size
 
 from . import API, VERSION
 from . import services, client
-from .plugins import get_coverage
+from .plugins import get_coverage, launch_report
 
 
 log = logging.getLogger(__name__)
@@ -93,6 +93,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data['help'] = \
             "To reset metrics, run: coverage.space {} --reset".format(slug)
         display("coverage decreased", data, color)
+        launch_report()
         return False
 
     else:

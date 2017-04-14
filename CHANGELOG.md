@@ -3,6 +3,7 @@
 ## 0.8 (unreleased)
 
 - Added slash requirement to `<owner/repo>` slug argument.
+- Added automatic coverage report launching when coverage decreases.
 
 ## 0.7.1 (2017/03/11)
 
