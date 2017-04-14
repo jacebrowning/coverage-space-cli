@@ -21,7 +21,7 @@ import json
 import logging
 
 import six
-from docopt import docopt
+from docopt import docopt, DocoptExit
 import colorama
 from backports.shutil_get_terminal_size import get_terminal_size
 
@@ -49,6 +49,9 @@ def main():
         level=logging.DEBUG if verbose else logging.WARNING,
         format="%(levelname)s: %(name)s: %(message)s",
     )
+
+    if '/' not in slug:
+        raise DocoptExit("<owner/repo> slug must contain a slash" + '\n')
 
     success = run(slug, metric, value, reset, verbose, hardfail)
 

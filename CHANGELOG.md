@@ -1,5 +1,9 @@
 # Revision History
 
+## 0.8 (unreleased)
+
+- Added slash requirement to `<owner/repo>` slug argument.
+
 ## 0.7.1 (2017/03/11)
 
 - Delayed coverage loading until needed to allow faster exits.

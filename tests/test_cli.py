@@ -85,6 +85,14 @@ def describe_cli():
             expect(cmd.stderr).contains("Coverage check skipped")
             expect(cmd.stdout) == ""
 
+        def it_fails_on_slugs_missing_a_slash(env):
+            cmd = cli(env, 'foobar', 'unit', '100')
+
+            expect(cmd.returncode) == 1
+            expect(cmd.stderr).contains(
+                "<owner/repo> slug must contain a slash")
+            expect(cmd.stdout) == ""
+
     def describe_reset():
 
         @pytest.fixture
