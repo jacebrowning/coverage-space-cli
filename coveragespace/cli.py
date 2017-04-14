@@ -23,7 +23,7 @@ import logging
 import six
 from docopt import docopt, DocoptExit
 import colorama
-from backports.shutil_get_terminal_size import get_terminal_size
+from backports.shutil_get_terminal_size import get_terminal_size  # pylint: disable=relative-import
 
 from . import API, VERSION
 from . import services, client
@@ -64,8 +64,8 @@ def run(*args, **kwargs):
     if services.detected():
         log.info("Coverage check skipped when running on CI service")
         return True
-    else:
-        return call(*args, **kwargs)
+
+    return call(*args, **kwargs)
 
 
 def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
