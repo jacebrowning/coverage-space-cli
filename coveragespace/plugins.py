@@ -76,7 +76,7 @@ def _find_plugin(cwd, allow_missing=False):
     if allow_missing:
         return None
 
-    raise RuntimeError(msg + '.l')
+    raise RuntimeError(msg + '.')
 
 
 class CoveragePy(BasePlugin):

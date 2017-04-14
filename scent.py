@@ -34,9 +34,9 @@ def python(*_):
     """Run targets for Python."""
 
     for count, (command, title, retry) in enumerate((
-        (('make', 'test-unit', 'CI=true'), "Unit Tests", True),
-        (('make', 'test-int', 'CI=true'), "Integration Tests", False),
-        (('make', 'test-all', 'CI=true'), "Combined Tests", False),
+        (('make', 'test-unit', 'DISABLE_COVERAGE=true'), "Unit Tests", True),
+        (('make', 'test-int', 'DISABLE_COVERAGE=true'), "Integration Tests", False),
+        (('make', 'test-all', 'DISABLE_COVERAGE=true'), "Combined Tests", False),
         (('make', 'check'), "Static Analysis", True),
         (('make', 'doc'), None, True),
     ), start=1):
