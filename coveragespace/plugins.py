@@ -2,14 +2,18 @@
 
 import os
 from abc import ABCMeta, abstractmethod
+import time
 import webbrowser
 import logging
 
 import coverage
 from six import with_metaclass
 
+from .cache import Cache
+
 
 log = logging.getLogger(__name__)
+cache = Cache()
 
 
 class BasePlugin(with_metaclass(ABCMeta)):  # pragma: no cover (abstract class)
@@ -60,7 +64,11 @@ def launch_report(cwd=None):
         path = plugin.get_report(cwd)
 
         if path:
-            webbrowser.open("file://" + path, new=2, autoraise=True)
+            if _launched_recently(path):
+                log.debug("Already launched: %s", path)
+            else:
+                log.info("Launching report: %s", path)
+                webbrowser.open("file://" + path, new=2, autoraise=True)
 
 
 def _find_plugin(cwd, allow_missing=False):
@@ -77,6 +85,13 @@ def _find_plugin(cwd, allow_missing=False):
         return None
 
     raise RuntimeError(msg + '.')
+
+
+def _launched_recently(path):
+    now = time.time()
+    then = cache.get(path, default=0)
+    cache.set(path, now)
+    return now - then > 60 * 60  # 1 hour
 
 
 class CoveragePy(BasePlugin):

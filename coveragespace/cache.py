@@ -38,17 +38,27 @@ class Cache(object):
         with open(self.PATH, 'wb') as fout:
             fout.write(text)
 
-    def set(self, url, data, response):
-        slug = self._slugify(url, data)
-        log.debug("Setting cache for %s: %s", url, data)
-        self._data[slug] = response
-        log.debug("Cached value: %s", response)
+    def set(self, key, value):
+        try:
+            url, data = key
+        except ValueError:
+            log.debug("Setting cache for %s", key)
+        else:
+            log.debug("Setting cache for %s: %s", url, data)
+            key = self._slugify(*key)
+        self._data[key] = value
+        log.debug("Cached value: %s", value)
         self._store()
 
-    def get(self, url, data):
-        log.debug("Getting cache for %s: %s", url, data)
-        slug = self._slugify(url, data)
-        value = self._data.get(slug)
+    def get(self, key, default=None):
+        try:
+            url, data = key
+        except ValueError:
+            log.debug("Getting cache for %s", key)
+        else:
+            log.debug("Getting cache for %s: %s", url, data)
+            key = self._slugify(*key)
+        value = self._data.get(key, default)
         log.debug("Cached value: %s", value)
         return value
 
