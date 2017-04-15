@@ -17,10 +17,11 @@ SLUG = "jacebrowning/coverage-space-cli-demo"
 def env(tmpdir):
     path = str(tmpdir.join('test'))
     env = scripttest.TestFileEnvironment(path)
+    env.environ.pop('APPVEYOR', None)
     env.environ.pop('CI', None)
     env.environ.pop('CONTINUOUS_INTEGRATION', None)
+    env.environ.pop('DISABLE_COVERAGE', None)
     env.environ.pop('TRAVIS', None)
-    env.environ.pop('APPVEYOR', None)
     return env
 
 
