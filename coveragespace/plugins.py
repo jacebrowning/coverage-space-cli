@@ -63,12 +63,9 @@ def launch_report(cwd=None):
     if plugin:
         path = plugin.get_report(cwd)
 
-        if path:
-            if _launched_recently(path):
-                log.debug("Already launched: %s", path)
-            else:
-                log.info("Launching report: %s", path)
-                webbrowser.open("file://" + path, new=2, autoraise=True)
+        if path and not _launched_recently(path):
+            log.info("Launching report: %s", path)
+            webbrowser.open("file://" + path, new=2, autoraise=True)
 
 
 def _find_plugin(cwd, allow_missing=False):
@@ -90,8 +87,10 @@ def _find_plugin(cwd, allow_missing=False):
 def _launched_recently(path):
     now = time.time()
     then = cache.get(path, default=0)
+    elapsed = now - then
+    log.debug("Last launched %s seconds ago", elapsed)
     cache.set(path, now)
-    return now - then > 60 * 60  # 1 hour
+    return elapsed < 60 * 60  # 1 hour
 
 
 class CoveragePy(BasePlugin):
