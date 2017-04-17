@@ -10,6 +10,8 @@ environment:
       PYTHON_MINOR: 4
     - PYTHON_MAJOR: 3
       PYTHON_MINOR: 5
+    - PYTHON_MAJOR: 3
+      PYTHON_MINOR: 6
 
 cache:
   - env

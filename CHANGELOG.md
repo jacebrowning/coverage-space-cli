@@ -1,10 +1,10 @@
 # Revision History
 
-## 0.8 (unreleased)
+## 0.8 (2017/04/16)
 
 - Added slash requirement to `<owner/repo>` slug argument.
 - Added automatic coverage report launching when coverage decreases.
-- 
+
 ## 0.7.2 (2017/03/11)
 
 - Allow coverage to be disabled with `DISABLE_COVERAGE`.
