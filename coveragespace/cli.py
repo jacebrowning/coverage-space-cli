@@ -21,13 +21,13 @@ import json
 import logging
 
 import six
-from docopt import docopt
+from docopt import docopt, DocoptExit
 import colorama
-from backports.shutil_get_terminal_size import get_terminal_size
+from backports.shutil_get_terminal_size import get_terminal_size  # pylint: disable=relative-import
 
 from . import API, VERSION
 from . import services, client
-from .plugins import get_coverage
+from .plugins import get_coverage, launch_report
 
 
 log = logging.getLogger(__name__)
@@ -50,6 +50,9 @@ def main():
         format="%(levelname)s: %(name)s: %(message)s",
     )
 
+    if '/' not in slug:
+        raise DocoptExit("<owner/repo> slug must contain a slash" + '\n')
+
     success = run(slug, metric, value, reset, verbose, hardfail)
 
     if not success and hardfail:
@@ -61,8 +64,8 @@ def run(*args, **kwargs):
     if services.detected():
         log.info("Coverage check skipped when running on CI service")
         return True
-    else:
-        return call(*args, **kwargs)
+
+    return call(*args, **kwargs)
 
 
 def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
@@ -90,6 +93,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data['help'] = \
             "To reset metrics, run: coverage.space {} --reset".format(slug)
         display("coverage decreased", data, color)
+        launch_report()
         return False
 
     else:

@@ -17,10 +17,11 @@ SLUG = "jacebrowning/coverage-space-cli-demo"
 def env(tmpdir):
     path = str(tmpdir.join('test'))
     env = scripttest.TestFileEnvironment(path)
+    env.environ.pop('APPVEYOR', None)
     env.environ.pop('CI', None)
     env.environ.pop('CONTINUOUS_INTEGRATION', None)
+    env.environ.pop('DISABLE_COVERAGE', None)
     env.environ.pop('TRAVIS', None)
-    env.environ.pop('APPVEYOR', None)
     return env
 
 
@@ -83,6 +84,14 @@ def describe_cli():
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr).contains("Coverage check skipped")
+            expect(cmd.stdout) == ""
+
+        def it_fails_on_slugs_missing_a_slash(env):
+            cmd = cli(env, 'foobar', 'unit', '100')
+
+            expect(cmd.returncode) == 1
+            expect(cmd.stderr).contains(
+                "<owner/repo> slug must contain a slash")
             expect(cmd.stdout) == ""
 
     def describe_reset():

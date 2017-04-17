@@ -15,7 +15,7 @@ cache = Cache()
 def get(url, data):
     log.info("Getting %s: %s", url, data)
 
-    response = cache.get(url, data)
+    response = cache.get((url, data))
     if response is None:
         for i in range(3):
             response = requests.put(url, data=data)
@@ -24,7 +24,7 @@ def get(url, data):
                 continue
             else:
                 break
-        cache.set(url, data, response)
+        cache.set((url, data), response)
 
     log.info("Response: %s", response)
 
