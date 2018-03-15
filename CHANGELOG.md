@@ -1,6 +1,6 @@
 # Revision History
 
-## 0.9 (unreleased)
+## 1.0 (2018/03/15)
 
 - BREAKING: Renamed PyPI package to `coverage-space`.
 
