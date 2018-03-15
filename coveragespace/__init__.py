@@ -1,10 +1,9 @@
-"""Package for coverage.space-cli."""
+"""Package for coverage.space CLI."""
 
-import sys
-
-__project__ = 'coverage.space'
+__project__ = 'coverage-space'
 __version__ = '0.8'
 
+CLI = 'coverage.space'
 API = 'https://api.coverage.space'
 
-VERSION = "{0} v{1}".format(__project__, __version__)
+VERSION = "{0} v{1}".format(CLI, __version__)

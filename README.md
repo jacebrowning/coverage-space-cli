@@ -15,7 +15,7 @@ The official command-line client for [The Coverage Space](http://coverage.space)
 The client can be installed with pip:
 
 ```sh
-$ pip install --upgrade coverage.space
+$ pip install --upgrade coverage-space
 ```
 
 or directly from the source code:

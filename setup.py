@@ -80,15 +80,10 @@ setuptools.setup(
     install_requires=[
         'six ~= 1.0',
 
-        'docopt ~= 0.6',
+        'backports.shutil-get-terminal-size ~= 1.0',
         'colorama ~= 0.3',
+        'coverage ~= 4.0',
+        'docopt ~= 0.6',
         'requests ~= 2.0',
-        'backports.shutil-get-terminal-size',
-
-        'coverage',
     ],
-
-    dependency_links=[
-        'https://github.com/chrippa/backports.shutil_get_terminal_size/tarball/159e269450dbf37c3a837f6ea7e628d59acbb96a#egg=backports.shutil-get-terminal-size'
-    ]
 )

@@ -10,7 +10,7 @@ python_version = "2.7"
 
 [packages]
 
-demo = { path = ".", editable = true }
+coverage-space = { path = ".", editable = true }
 
 [dev-packages]
 
@@ -27,9 +27,6 @@ pytest-random = "*"
 pytest-cov = "*"
 mock = "*"
 scripttest = "*"
-
-# Reports
-"coverage.space" = "*"
 
 # Documentation
 mkdocs = "*"
