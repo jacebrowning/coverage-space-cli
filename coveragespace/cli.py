@@ -21,9 +21,9 @@ import json
 import logging
 
 import six
-from docopt import docopt, DocoptExit
 import colorama
 from backports.shutil_get_terminal_size import get_terminal_size  # pylint: disable=relative-import
+from docopt import docopt, DocoptExit
 
 from . import API, VERSION
 from . import services, client
