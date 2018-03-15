@@ -1,7 +1,7 @@
 """Package for coverage.space CLI."""
 
 __project__ = 'coverage-space'
-__version__ = '0.8'
+__version__ = '0.8.post1'
 
 CLI = 'coverage.space'
 API = 'https://api.coverage.space'
