@@ -1,5 +1,9 @@
 # Revision History
 
+## 1.0 (2018/03/15)
+
+- BREAKING: Renamed PyPI package to `coverage-space`.
+
 ## 0.8 (2017/04/16)
 
 - Added slash requirement to `<owner/repo>` slug argument.

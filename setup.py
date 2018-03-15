@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-"""Setup script for The Coverage Space CLI."""
-
 import os
 import sys
 
@@ -9,27 +7,27 @@ import setuptools
 
 
 PACKAGE_NAME = 'coveragespace'
-MINIMUM_PYTHON_VERSION = 2, 7
+MINIMUM_PYTHON_VERSION = '2.7'
 
 
 def check_python_version():
     """Exit when the Python version is too low."""
-    if sys.version_info < MINIMUM_PYTHON_VERSION:
-        sys.exit("Python {}.{}+ is required.".format(*MINIMUM_PYTHON_VERSION))
+    if sys.version < MINIMUM_PYTHON_VERSION:
+        sys.exit("Python {0}+ is required.".format(MINIMUM_PYTHON_VERSION))
 
 
-def read_package_variable(key):
+def read_package_variable(key, filename='__init__.py'):
     """Read the value of a variable from the package without importing."""
-    module_path = os.path.join(PACKAGE_NAME, '__init__.py')
+    module_path = os.path.join(PACKAGE_NAME, filename)
     with open(module_path) as module:
         for line in module:
-            parts = line.strip().split(' ')
-            if parts and parts[0] == key:
+            parts = line.strip().split(' ', 2)
+            if parts[:-1] == [key, '=']:
                 return parts[-1].strip("'")
-    assert 0, "'{0}' not found in '{1}'".format(key, module_path)
+    sys.exit("'%s' not found in '%s'", key, module_path)
 
 
-def read_descriptions():
+def build_description():
     """Build a description for the project from documentation files."""
     try:
         readme = open("README.rst").read()
@@ -41,6 +39,7 @@ def read_descriptions():
 
 
 check_python_version()
+
 setuptools.setup(
     name=read_package_variable('__project__'),
     version=read_package_variable('__version__'),
@@ -56,10 +55,10 @@ setuptools.setup(
         'coverage.space = coveragespace.cli:main',
     ]},
 
-    long_description=read_descriptions(),
+    long_description=build_description(),
     license='MIT',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -78,8 +77,13 @@ setuptools.setup(
         'Topic :: Software Development :: Testing',
     ],
 
-    install_requires=open("requirements.txt").readlines(),
-    dependency_links=[
-        'https://github.com/chrippa/backports.shutil_get_terminal_size/tarball/159e269450dbf37c3a837f6ea7e628d59acbb96a#egg=backports.shutil-get-terminal-size'
-    ]
+    install_requires=[
+        'six ~= 1.0',
+
+        'backports.shutil-get-terminal-size ~= 1.0',
+        'colorama ~= 0.3',
+        'coverage ~= 4.0',
+        'docopt ~= 0.6',
+        'requests ~= 2.0',
+    ],
 )

@@ -1,18 +1,22 @@
 language: python
 python:
   - 2.7
-  - 3.3
   - 3.4
   - 3.5
+  - 3.6
 
 cache:
   pip: true
   directories:
-    - env
+    - .venv
 
 env:
   global:
     - RANDOM_SEED=0
+
+before_install:
+  - pip install pipenv
+  - make doctor
 
 install:
   - make install
@@ -29,4 +33,4 @@ after_success:
 notifications:
   email:
     on_success: never
-    on_failure: change
+    on_failure: never
