@@ -1,5 +1,9 @@
 # Revision History
 
+## 1.0.1 (unreleased)
+
+- Broadened dependency on `six` to `1.x`.
+
 ## 1.0 (2018/03/15)
 
 - BREAKING: Renamed PyPI package to `coverage-space`.
