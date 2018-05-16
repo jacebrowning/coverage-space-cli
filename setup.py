@@ -78,7 +78,7 @@ setuptools.setup(
     ],
 
     install_requires=[
-        'six ~= 1.0',
+        'six',
 
         'backports.shutil-get-terminal-size ~= 1.0',
         'colorama ~= 0.3',
