@@ -9,8 +9,6 @@ CONFIG := $(wildcard *.py)
 MODULES := $(wildcard $(PACKAGE)/*.py)
 
 # Virtual environment paths
-export poetry_VENV_IN_PROJECT=true
-export poetry_IGNORE_VIRTUALENVS=true
 VENV := .venv
 
 # MAIN TASKS ##################################################################
@@ -25,11 +23,8 @@ ci: check test ## Run all tasks that determine CI status
 
 .PHONY: watch
 watch: install .clean-test ## Continuously run all CI tasks when files chanage
+	poetry run pip install MacFSEvents pync
 	$(SNIFFER)
-
-.PHONY: run ## Start the program
-run: install
-	poetry run python $(PACKAGE)/__main__.py
 
 # SYSTEM DEPENDENCIES #########################################################
 
@@ -47,9 +42,6 @@ install: $(DEPENDENCIES)
 $(DEPENDENCIES): .venv pyproject.lock
 	poetry install
 	poetry run pip install -e .
-ifndef CI
-	poetry run pip install MacFSEvents pync
-endif
 	@ touch $@
 
 .venv:
