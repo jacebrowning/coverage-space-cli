@@ -1,5 +1,9 @@
 # Revision History
 
+## 1.0.2 (2018/05/16)
+
+- Brocaded dependency on `coverage` and `requests` to accept any version.
+
 ## 1.0.1 (2018/05/15)
 
 - Broadened dependency on `six` to accept any version.

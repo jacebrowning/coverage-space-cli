@@ -82,8 +82,8 @@ setuptools.setup(
 
         'backports.shutil-get-terminal-size ~= 1.0',
         'colorama ~= 0.3',
-        'coverage ~= 4.0',
+        'coverage',
         'docopt ~= 0.6',
-        'requests ~= 2.0',
+        'requests >= 2.0',
     ],
 )
