@@ -34,7 +34,7 @@ doctor:  ## Confirm system dependencies are available
 
 # PROJECT DEPENDENCIES ########################################################
 
-DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.*)
+DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.* setup.py)
 
 .PHONY: install
 install: $(DEPENDENCIES)

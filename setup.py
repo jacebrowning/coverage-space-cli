@@ -3,8 +3,8 @@
 import setuptools
 
 setuptools.setup(
+    name='coverage-space',
     packages=setuptools.find_packages(),
-
     entry_points={'console_scripts': [
         'coverage.space = coveragespace.cli:main',
     ]},
