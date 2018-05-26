@@ -46,8 +46,6 @@ classifiers = [
 
 python = '~2.7 || ^3.3'
 
-six = '^1.0'
-
 'backports.shutil-get-terminal-size' = '^1.0'
 colorama = '^0.3'
 coverage = '^4.0'
@@ -60,7 +58,7 @@ requests = '^2.0'
 pylint = '*'
 pycodestyle = '*'
 pydocstyle = '*'
-snowballstemmer = '*'  # TODO: Remove this workaround
+snowballstemmer = '*'  # TODO: This dependency is missing from 'pydocstyle'
 
 # Testing
 pytest = '^3.3'
@@ -85,9 +83,8 @@ twine = '*'
 
 # Tooling
 sniffer = '*'
-# Enable these: https://github.com/sdispater/poetry/issues/21
-# MacFSEvents = { version = '*', sys_platform = "== 'darwin'" }
-# pync = { version = '*', sys_platform = "== 'darwin'" }
+MacFSEvents = { version = '*', platform = 'darwin' }
+pync = { version = '*', platform = 'darwin' }
 
 
 [tool.poetry.scripts]

@@ -23,7 +23,6 @@ ci: check test ## Run all tasks that determine CI status
 
 .PHONY: watch
 watch: install .clean-test ## Continuously run all CI tasks when files chanage
-	poetry run pip install MacFSEvents pync
 	$(SNIFFER)
 
 # SYSTEM DEPENDENCIES #########################################################
@@ -45,7 +44,8 @@ $(DEPENDENCIES): .venv pyproject.lock
 	@ touch $@
 
 .venv:
-	python -m venv $(VENV)
+	virtualenv $(VENV)
+	poetry run pip install --upgrade pip
 
 pyproject.lock: pyproject.toml
 	poetry lock
