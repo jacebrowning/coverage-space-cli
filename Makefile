@@ -33,14 +33,13 @@ doctor:  ## Confirm system dependencies are available
 
 # PROJECT DEPENDENCIES ########################################################
 
-DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.* setup.py)
+DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.*)
 
 .PHONY: install
 install: $(DEPENDENCIES)
 
 $(DEPENDENCIES): .venv pyproject.lock
-	poetry install
-	poetry run pip install -e .
+	poetry develop
 	@ touch $@
 
 .venv:

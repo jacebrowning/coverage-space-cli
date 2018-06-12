@@ -1,13 +1,13 @@
 [tool.poetry]
 
-name = 'coverage-space'
+name = 'coveragespace'
 version = '1.0.1a1'
 description = 'A place to track your code coverage metrics.'
 
 license = 'MIT'
 
 authors = [
-    'Jace Browning <jacebrowning@gmail.com',
+    'Jace Browning <jacebrowning@gmail.com>',
 ]
 
 readme = 'README.md'
@@ -40,7 +40,6 @@ classifiers = [
     'Topic :: Software Development :: Quality Assurance',
     'Topic :: Software Development :: Testing',
 ]
-
 
 [tool.poetry.dependencies]
 
@@ -85,7 +84,6 @@ twine = '*'
 sniffer = '*'
 MacFSEvents = { version = '*', platform = 'darwin' }
 pync = { version = '*', platform = 'darwin' }
-
 
 [tool.poetry.scripts]
 
