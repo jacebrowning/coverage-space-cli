@@ -38,13 +38,10 @@ DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.*)
 .PHONY: install
 install: $(DEPENDENCIES)
 
-$(DEPENDENCIES): .venv pyproject.lock
+$(DEPENDENCIES): pyproject.lock
+	@ poetry config settings.virtualenvs.in-project true
 	poetry develop
 	@ touch $@
-
-.venv:
-	virtualenv $(VENV)
-	poetry run pip install --upgrade pip
 
 pyproject.lock: pyproject.toml
 	poetry lock
