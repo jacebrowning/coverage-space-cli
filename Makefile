@@ -69,7 +69,7 @@ pydocstyle: install
 
 # TESTS #######################################################################
 
-PYTEST := poetry run py.test
+PYTEST := poetry run pytest
 COVERAGE := poetry run coverage
 COVERAGE_SPACE := poetry run coverage.space
 
