@@ -9,13 +9,11 @@ CONFIG := $(wildcard *.py)
 MODULES := $(wildcard $(PACKAGE)/*.py)
 
 # Virtual environment paths
-export PIPENV_VENV_IN_PROJECT=true
-export PIPENV_IGNORE_VIRTUALENVS=true
 VENV := .venv
 
 # MAIN TASKS ##################################################################
 
-SNIFFER := pipenv run sniffer
+SNIFFER := poetry run sniffer
 
 .PHONY: all
 all: install
@@ -27,10 +25,6 @@ ci: check test ## Run all tasks that determine CI status
 watch: install .clean-test ## Continuously run all CI tasks when files chanage
 	$(SNIFFER)
 
-.PHONY: run ## Start the program
-run: install
-	pipenv run python $(PACKAGE)/__main__.py
-
 # SYSTEM DEPENDENCIES #########################################################
 
 .PHONY: doctor
@@ -39,21 +33,24 @@ doctor:  ## Confirm system dependencies are available
 
 # PROJECT DEPENDENCIES ########################################################
 
-DEPENDENCIES := $(VENV)/.pipenv-$(shell bin/checksum Pipfile* setup.py)
+DEPENDENCIES := $(VENV)/.poetry-$(shell bin/checksum pyproject.*)
 
 .PHONY: install
 install: $(DEPENDENCIES)
 
-$(DEPENDENCIES):
-	pipenv run python setup.py develop
-	pipenv install --dev
+$(DEPENDENCIES): pyproject.lock
+	@ poetry config settings.virtualenvs.in-project true
+	poetry develop
 	@ touch $@
+
+pyproject.lock: pyproject.toml
+	poetry lock
 
 # CHECKS ######################################################################
 
-PYLINT := pipenv run pylint
-PYCODESTYLE := pipenv run pycodestyle
-PYDOCSTYLE := pipenv run pydocstyle
+PYLINT := poetry run pylint
+PYCODESTYLE := poetry run pycodestyle
+PYDOCSTYLE := poetry run pydocstyle
 
 .PHONY: check
 check: pylint pycodestyle pydocstyle ## Run linters and static analysis
@@ -72,9 +69,9 @@ pydocstyle: install
 
 # TESTS #######################################################################
 
-PYTEST := pipenv run py.test
-COVERAGE := pipenv run coverage
-COVERAGE_SPACE := pipenv run coverage.space
+PYTEST := poetry run pytest
+COVERAGE := poetry run coverage
+COVERAGE_SPACE := poetry run coverage.space
 
 RANDOM_SEED ?= $(shell date +%s)
 FAILURES := .cache/v/cache/lastfailed
@@ -120,8 +117,8 @@ read-coverage:
 
 # DOCUMENTATION ###############################################################
 
-PYREVERSE := pipenv run pyreverse
-MKDOCS := pipenv run mkdocs
+PYREVERSE := poetry run pyreverse
+MKDOCS := poetry run mkdocs
 
 MKDOCS_INDEX := site/index.html
 
@@ -151,8 +148,8 @@ mkdocs-live: mkdocs
 
 # BUILD #######################################################################
 
-PYINSTALLER := pipenv run pyinstaller
-PYINSTALLER_MAKESPEC := pipenv run pyi-makespec
+PYINSTALLER := poetry run pyinstaller
+PYINSTALLER_MAKESPEC := poetry run pyi-makespec
 
 DIST_FILES := dist/*.tar.gz dist/*.whl
 EXE_FILES := dist/$(PROJECT).*
@@ -164,9 +161,9 @@ build: dist
 dist: install $(DIST_FILES)
 $(DIST_FILES): $(MODULES) README.rst CHANGELOG.rst
 	rm -f $(DIST_FILES)
-	pipenv run python setup.py check --restructuredtext --strict --metadata
-	pipenv run python setup.py sdist
-	pipenv run python setup.py bdist_wheel
+	poetry run python setup.py check --restructuredtext --strict --metadata
+	poetry run python setup.py sdist
+	poetry run python setup.py bdist_wheel
 
 %.rst: %.md
 	pandoc -f markdown_github -t rst -o $@ $<
@@ -182,7 +179,7 @@ $(PROJECT).spec:
 
 # RELEASE #####################################################################
 
-TWINE := pipenv run twine
+TWINE := poetry run twine
 
 .PHONY: upload
 upload: dist ## Upload the current version to PyPI

@@ -15,7 +15,7 @@ env:
     - RANDOM_SEED=0
 
 before_install:
-  - pip install pipenv
+  - pip install poetry
   - make doctor
 
 install:

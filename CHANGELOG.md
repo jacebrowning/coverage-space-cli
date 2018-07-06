@@ -1,5 +1,8 @@
 # Revision History
 
+## 1.0.1 (unreleased)
+
+- Broadened dependency on `six` to `1.x`.
 ## 1.0.1 (2018/05/15)
 
 - Broadened dependency on `six` to accept any version.
