@@ -57,6 +57,7 @@ requests = "^2.0"
 pylint = "*"
 pycodestyle = "*"
 pydocstyle = "*"
+snowballstemmer = "*"  # missing dependency for 'pydocstyle'
 
 # Testing
 pytest = "^3.3"
