@@ -46,9 +46,9 @@ classifiers = [
 python = "~2.7 || ^3.3"
 
 "backports.shutil-get-terminal-size" = "^1.0"
-colorama = "^0.3"
+colorama = "~0.3"
 coverage = "^4.0"
-docopt = "^0.6"
+docopt = "~0.6"
 requests = "^2.0"
 
 [tool.poetry.dev-dependencies]
@@ -70,6 +70,7 @@ scripttest = "*"
 
 # Documentation
 mkdocs = "*"
+backports-abc = ">=0.4"  # missing dependency for 'mkdocs'
 docutils = "*"
 pygments = "*"
 

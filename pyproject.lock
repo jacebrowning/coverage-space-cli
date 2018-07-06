@@ -53,6 +53,15 @@ version = "18.1.0"
 
 [[package]]
 category = "dev"
+description = "A backport of recent additions to the 'collections.abc' module."
+name = "backports-abc"
+optional = false
+platform = "UNKNOWN"
+python-versions = "*"
+version = "0.5"
+
+[[package]]
+category = "dev"
 description = "backports.functools_lru_cache"
 name = "backports.functools-lru-cache"
 optional = false
@@ -751,7 +760,7 @@ python-versions = "*"
 version = "1.10.11"
 
 [metadata]
-content-hash = "3f568d79e441b8b28d32581833b6c990b55098bcde4487fc8df325a12b630856"
+content-hash = "3114c6eb1ed45ef9c97be19f18caaa5217ff9bbc994206c3f1d852fa96ef9a12"
 platform = "*"
 python-versions = "~2.7 || ^3.3"
 
@@ -760,6 +769,7 @@ altgraph = ["49dc134049903cc73fb76ca3cc9bef5b2b8c01c28732dd29594f99af2b449fc5", 
 astroid = ["0ef2bf9f07c3150929b25e8e61b5198c27b0dca195e156f0e4d5bdd89185ca1a", "fc9b582dba0366e63540982c3944a9230cbc6f303641c51483fa547dcc22393a"]
 atomicwrites = ["240831ea22da9ab882b551b31d4225591e5e447a68c5e188db5b89ca1d487585", "a24da68318b08ac9c9c45029f4a10371ab5b20e4226738e150e6e7c571630ae6"]
 attrs = ["4b90b09eeeb9b88c35bc642cbac057e45a5fd85367b985bd2809c62b7b939265", "e0d0eb91441a3b53dab4d9b743eafc1ac44476296a2053b6ca3af0b139faf87b"]
+backports-abc = ["033be54514a03e255df75c5aee8f9e672f663f93abb723444caec8fe43437bde", "52089f97fe7a9aa0d3277b220c1d730a85aefd64e1b2664696fe35317c5470a7"]
 "backports.functools-lru-cache" = ["9d98697f088eb1b0fa451391f91afb5e3ebde16bbdb272819fd091151fda4f1a", "f0b0e4eba956de51238e17573b7087e852dfe9854afd2e9c873f73fc0ca0a6dd"]
 "backports.shutil-get-terminal-size" = ["0975ba55054c15e346944b38956a4c9cbee9009391e41b86c68990effb8c1f64", "713e7a8228ae80341c70586d1cc0a8caa5207346927e23d09dcbcaf18eadec80"]
 certifi = ["13e698f54293db9f89122b0581843a782ad0934a4fe0172d2a980ba77fc61bb7", "9fa520c1bacfb634fa7af20a76bcbd3d5fb390481724c597da32c719a7dca4b0"]
