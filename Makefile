@@ -45,6 +45,7 @@ $(DEPENDENCIES): pyproject.lock
 
 pyproject.lock: pyproject.toml
 	poetry lock
+	@ touch $@
 
 # CHECKS ######################################################################
 
@@ -148,44 +149,24 @@ mkdocs-live: mkdocs
 
 # BUILD #######################################################################
 
-PYINSTALLER := poetry run pyinstaller
-PYINSTALLER_MAKESPEC := poetry run pyi-makespec
-
 DIST_FILES := dist/*.tar.gz dist/*.whl
-EXE_FILES := dist/$(PROJECT).*
 
 .PHONY: build
 build: dist
 
 .PHONY: dist
 dist: install $(DIST_FILES)
-$(DIST_FILES): $(MODULES) README.rst CHANGELOG.rst
+$(DIST_FILES): $(MODULES)
 	rm -f $(DIST_FILES)
-	poetry run python setup.py check --restructuredtext --strict --metadata
-	poetry run python setup.py sdist
-	poetry run python setup.py bdist_wheel
-
-%.rst: %.md
-	pandoc -f markdown_github -t rst -o $@ $<
-
-.PHONY: exe
-exe: install $(EXE_FILES)
-$(EXE_FILES): $(MODULES) $(PROJECT).spec
-	# For framework/shared support: https://github.com/yyuu/pyenv/wiki
-	$(PYINSTALLER) $(PROJECT).spec --noconfirm --clean
-
-$(PROJECT).spec:
-	$(PYINSTALLER_MAKESPEC) $(PACKAGE)/__main__.py --onefile --windowed --name=$(PROJECT)
+	poetry build
 
 # RELEASE #####################################################################
-
-TWINE := poetry run twine
 
 .PHONY: upload
 upload: dist ## Upload the current version to PyPI
 	git diff --name-only --exit-code
-	$(TWINE) upload dist/*.*
-	bin/open https://pypi.python.org/pypi/$(PROJECT)
+	poetry publish
+	bin/open https://pypi.org/project/$(PROJECT)
 
 # CLEANUP #####################################################################
 
