@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 class Cache(object):
 
-    PATH = os.path.join('.cache', 'coverage.space')
+    PATH = os.path.join('.cache', 'coveragespace')
 
     def __init__(self):
         self._data = {}

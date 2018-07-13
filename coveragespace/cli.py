@@ -1,10 +1,10 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
-  coverage.space <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
-  coverage.space <owner/repo> --reset [--verbose]
-  coverage.space (-h | --help)
-  coverage.space (-V | --version)
+  coveragespace <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
+  coveragespace <owner/repo> --reset [--verbose]
+  coveragespace (-h | --help)
+  coveragespace (-V | --version)
 
 Options:
   -h --help         Show this help screen.
@@ -91,7 +91,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
         data['help'] = \
-            "To reset metrics, run: coverage.space {} --reset".format(slug)
+            "To reset metrics, run: coveragespace {} --reset".format(slug)
         display("coverage decreased", data, color)
         launch_report()
         return False

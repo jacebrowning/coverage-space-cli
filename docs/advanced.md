@@ -3,7 +3,7 @@
 If code coverage metrics have decreased, but you would like to silence the warning and reset metrics to the next received value:
 
 ```sh
-$ coverage.space <owner/repo> --reset
+$ coveragespace <owner/repo> --reset
 ```
 
 # Verbosity
@@ -11,7 +11,7 @@ $ coverage.space <owner/repo> --reset
 To always display the coverage results, use the `--verbose` option:
 
 ```sh
-$ coverage.space <owner/repo> <metric> --verbose
+$ coveragespace <owner/repo> <metric> --verbose
 ```
 
 # Exit Codes
@@ -19,5 +19,5 @@ $ coverage.space <owner/repo> <metric> --verbose
 To return a non-zero exit code when coverage decreases, use the `--exit-code` option:
 
 ```sh
-$ coverage.space <owner/repo> <metric> --exit-code
+$ coveragespace <owner/repo> <metric> --exit-code
 ```
