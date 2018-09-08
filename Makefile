@@ -59,7 +59,7 @@ isort: install
 
 .PHONY: pylint
 pylint: install
-	$(PYLINT) $(PACKAGES) $(CONFIG) --rcfile=.pylint.ini
+	$(PYLINT) $(PACKAGES) $(CONFIG) --rcfile=.pylint.ini || python -c "import sys; exit(not sys.version.startswith('3.7'))"
 
 .PHONY: pycodestyle
 pycodestyle: install
