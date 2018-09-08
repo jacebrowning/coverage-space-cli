@@ -4,18 +4,23 @@ python:
   - 3.4
   - 3.5
   - 3.6
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+      sudo: true
 
 cache:
   pip: true
   directories:
-    - .venv
+    - ${VIRTUAL_ENV}
 
 env:
   global:
     - RANDOM_SEED=0
 
 before_install:
-  - pip install pipenv
+  - pip install poetry
   - make doctor
 
 install:

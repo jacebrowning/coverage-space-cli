@@ -7,8 +7,9 @@ import sys
 
 import pytest
 import scripttest
-from expecter import expect
 import six
+from expecter import expect
+
 
 SLUG = "jacebrowning/coverage-space-cli-demo"
 
@@ -26,7 +27,7 @@ def env(tmpdir):
 
 
 def cli(env, *args):
-    prog = os.path.join(os.path.dirname(sys.executable), 'coverage.space')
+    prog = os.path.join(os.path.dirname(sys.executable), 'coveragespace')
     cmd = env.run(prog, *args, expect_error=True)
     six.print_(cmd)
     return cmd
@@ -60,7 +61,7 @@ def describe_cli():
             expect(cmd.stderr) == ""
             expect(cmd.stdout).contains("coverage decreased")
             expect(cmd.stdout).contains(
-                "To reset metrics, run: coverage.space " + slug + " --reset"
+                "To reset metrics, run: coveragespace " + slug + " --reset"
             )
 
         def it_fails_when_metrics_decrease_if_requested(env, slug):

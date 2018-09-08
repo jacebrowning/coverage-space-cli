@@ -1,9 +1,12 @@
-"""Package for coverage.space CLI."""
+from pkg_resources import DistributionNotFound, get_distribution
 
-__project__ = 'coverage-space'
-__version__ = '1.0.2'
 
-CLI = 'coverage.space'
+try:
+    __version__ = get_distribution('coveragespace').version
+except DistributionNotFound:
+    __version__ = '(local)'
+
+CLI = 'coveragespace'
 API = 'https://api.coverage.space'
 
 VERSION = "{0} v{1}".format(CLI, __version__)

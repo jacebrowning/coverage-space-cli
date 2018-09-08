@@ -19,6 +19,9 @@ CONTINUOUS_INTEGRATION = [
     # CircleCI
     'CIRCLECI',
 
+    # Drone
+    'DRONE',
+
 ]
 
 

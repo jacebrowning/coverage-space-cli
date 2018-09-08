@@ -1,5 +1,5 @@
 # Project settings
-PROJECT := coverage.space
+PROJECT := coveragespace
 PACKAGE := coveragespace
 REPOSITORY := jacebrowning/coverage-space-cli
 
@@ -9,13 +9,11 @@ CONFIG := $(wildcard *.py)
 MODULES := $(wildcard $(PACKAGE)/*.py)
 
 # Virtual environment paths
-export PIPENV_VENV_IN_PROJECT=true
-export PIPENV_IGNORE_VIRTUALENVS=true
-VENV := .venv
+VIRTUAL_ENV ?= .venv
 
 # MAIN TASKS ##################################################################
 
-SNIFFER := pipenv run sniffer
+SNIFFER := poetry run sniffer
 
 .PHONY: all
 all: install
@@ -27,10 +25,6 @@ ci: check test ## Run all tasks that determine CI status
 watch: install .clean-test ## Continuously run all CI tasks when files chanage
 	$(SNIFFER)
 
-.PHONY: run ## Start the program
-run: install
-	pipenv run python $(PACKAGE)/__main__.py
-
 # SYSTEM DEPENDENCIES #########################################################
 
 .PHONY: doctor
@@ -39,28 +33,33 @@ doctor:  ## Confirm system dependencies are available
 
 # PROJECT DEPENDENCIES ########################################################
 
-DEPENDENCIES := $(VENV)/.pipenv-$(shell bin/checksum Pipfile* setup.py)
+DEPENDENCIES := $(VIRTUAL_ENV)/.poetry-$(shell bin/checksum pyproject.*) *.egg-info
 
 .PHONY: install
 install: $(DEPENDENCIES)
 
 $(DEPENDENCIES):
-	pipenv run python setup.py develop
-	pipenv install --dev
+	@ poetry config settings.virtualenvs.in-project true
+	poetry develop
 	@ touch $@
 
 # CHECKS ######################################################################
 
-PYLINT := pipenv run pylint
-PYCODESTYLE := pipenv run pycodestyle
-PYDOCSTYLE := pipenv run pydocstyle
+ISORT := poetry run isort
+PYLINT := poetry run pylint
+PYCODESTYLE := poetry run pycodestyle
+PYDOCSTYLE := poetry run pydocstyle
 
 .PHONY: check
-check: pylint pycodestyle pydocstyle ## Run linters and static analysis
+check: isort pylint pycodestyle pydocstyle ## Run linters and static analysis
+
+.PHONY: isort
+isort: install
+	$(ISORT) $(PACKAGES) $(CONFIG) --recursive --apply
 
 .PHONY: pylint
 pylint: install
-	$(PYLINT) $(PACKAGES) $(CONFIG) --rcfile=.pylint.ini
+	$(PYLINT) $(PACKAGES) $(CONFIG) --rcfile=.pylint.ini || python -c "import sys; exit(not sys.version.startswith('3.7'))"
 
 .PHONY: pycodestyle
 pycodestyle: install
@@ -72,23 +71,18 @@ pydocstyle: install
 
 # TESTS #######################################################################
 
-PYTEST := pipenv run py.test
-COVERAGE := pipenv run coverage
-COVERAGE_SPACE := pipenv run coverage.space
+PYTEST := poetry run pytest
+COVERAGE := poetry run coverage
+COVERAGE_SPACE := poetry run coveragespace
 
 RANDOM_SEED ?= $(shell date +%s)
 FAILURES := .cache/v/cache/lastfailed
-REPORTS ?= xmlreport
 
-PYTEST_CORE_OPTIONS := -ra -vv
-PYTEST_COV_OPTIONS := --cov=$(PACKAGE) --no-cov-on-fail --cov-report=term-missing:skip-covered --cov-report=html
-PYTEST_RANDOM_OPTIONS := --random --random-seed=$(RANDOM_SEED)
-
-PYTEST_OPTIONS := $(PYTEST_CORE_OPTIONS) $(PYTEST_RANDOM_OPTIONS)
-ifndef DISABLE_COVERAGE
-PYTEST_OPTIONS += $(PYTEST_COV_OPTIONS)
+PYTEST_OPTIONS := --random --random-seed=$(RANDOM_SEED)
+ifdef DISABLE_COVERAGE
+PYTEST_OPTIONS += --no-cov --disable-warnings
 endif
-PYTEST_RERUN_OPTIONS := $(PYTEST_CORE_OPTIONS) --last-failed --exitfirst
+PYTEST_RERUN_OPTIONS := --last-failed --exitfirst
 
 .PHONY: test
 test: test-all ## Run unit and integration tests
@@ -96,22 +90,22 @@ test: test-all ## Run unit and integration tests
 .PHONY: test-unit
 test-unit: install
 	@ ( mv $(FAILURES) $(FAILURES).bak || true ) > /dev/null 2>&1
-	$(PYTEST) $(PYTEST_OPTIONS) $(PACKAGE) --junitxml=$(REPORTS)/unit.xml
+	$(PYTEST) $(PACKAGE) $(PYTEST_OPTIONS)
 	@ ( mv $(FAILURES).bak $(FAILURES) || true ) > /dev/null 2>&1
 	$(COVERAGE_SPACE) $(REPOSITORY) unit
 
 .PHONY: test-int
 test-int: install
-	@ if test -e $(FAILURES); then $(PYTEST) $(PYTEST_RERUN_OPTIONS) tests; fi
+	@ if test -e $(FAILURES); then $(PYTEST) tests $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
-	$(PYTEST) $(PYTEST_OPTIONS) tests --junitxml=$(REPORTS)/integration.xml
+	$(PYTEST) tests $(PYTEST_OPTIONS)
 	$(COVERAGE_SPACE) $(REPOSITORY) integration
 
 .PHONY: test-all
 test-all: install
-	@ if test -e $(FAILURES); then $(PYTEST) $(PYTEST_RERUN_OPTIONS) $(PACKAGES); fi
+	@ if test -e $(FAILURES); then $(PYTEST) $(PACKAGES) $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
-	$(PYTEST) $(PYTEST_OPTIONS) $(PACKAGES) --junitxml=$(REPORTS)/overall.xml
+	$(PYTEST) $(PACKAGES) $(PYTEST_OPTIONS)
 	$(COVERAGE_SPACE) $(REPOSITORY) overall
 
 .PHONY: read-coverage
@@ -120,8 +114,8 @@ read-coverage:
 
 # DOCUMENTATION ###############################################################
 
-PYREVERSE := pipenv run pyreverse
-MKDOCS := pipenv run mkdocs
+PYREVERSE := poetry run pyreverse
+MKDOCS := poetry run mkdocs
 
 MKDOCS_INDEX := site/index.html
 
@@ -151,25 +145,16 @@ mkdocs-live: mkdocs
 
 # BUILD #######################################################################
 
-PYINSTALLER := pipenv run pyinstaller
-PYINSTALLER_MAKESPEC := pipenv run pyi-makespec
+PYINSTALLER := poetry run pyinstaller
+PYINSTALLER_MAKESPEC := poetry run pyi-makespec
 
 DIST_FILES := dist/*.tar.gz dist/*.whl
 EXE_FILES := dist/$(PROJECT).*
-
-.PHONY: build
-build: dist
-
 .PHONY: dist
 dist: install $(DIST_FILES)
-$(DIST_FILES): $(MODULES) README.rst CHANGELOG.rst
+$(DIST_FILES): $(MODULES)
 	rm -f $(DIST_FILES)
-	pipenv run python setup.py check --restructuredtext --strict --metadata
-	pipenv run python setup.py sdist
-	pipenv run python setup.py bdist_wheel
-
-%.rst: %.md
-	pandoc -f markdown_github -t rst -o $@ $<
+	poetry build
 
 .PHONY: exe
 exe: install $(EXE_FILES)
@@ -182,13 +167,11 @@ $(PROJECT).spec:
 
 # RELEASE #####################################################################
 
-TWINE := pipenv run twine
-
 .PHONY: upload
 upload: dist ## Upload the current version to PyPI
 	git diff --name-only --exit-code
-	$(TWINE) upload dist/*.*
-	bin/open https://pypi.python.org/pypi/$(PROJECT)
+	poetry publish
+	bin/open https://pypi.org/project/$(PROJECT)
 
 # CLEANUP #####################################################################
 
@@ -197,7 +180,7 @@ clean: .clean-build .clean-docs .clean-test .clean-install ## Delete all generat
 
 .PHONY: clean-all
 clean-all: clean
-	rm -rf $(VENV)
+	rm -rf $(VIRTUAL_ENV)
 
 .PHONY: .clean-install
 .clean-install:

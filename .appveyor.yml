@@ -10,6 +10,8 @@ environment:
       PYTHON_MINOR: 5
     - PYTHON_MAJOR: 3
       PYTHON_MINOR: 6
+    - PYTHON_MAJOR: 3
+      PYTHON_MINOR: 7
 
 cache:
   - .venv -> Makefile
@@ -21,7 +23,7 @@ install:
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%;%PATH%
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%\Scripts;%PATH%
   # Install system dependencies
-  - pip install pipenv
+  - pip install poetry
   - make doctor
   # Install project dependencies
   - make install

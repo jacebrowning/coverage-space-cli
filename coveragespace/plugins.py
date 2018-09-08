@@ -1,10 +1,10 @@
 """Plugins to extract coverage data from various formats."""
 
+import logging
 import os
-from abc import ABCMeta, abstractmethod
 import time
 import webbrowser
-import logging
+from abc import ABCMeta, abstractmethod
 
 import coverage
 from six import with_metaclass
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 cache = Cache()
 
 
-class BasePlugin(with_metaclass(ABCMeta)):  # pragma: no cover (abstract class)
+class BasePlugin(with_metaclass(ABCMeta)):  # pylint: disable=no-init
     """Base class for coverage plugins."""
 
     @abstractmethod
@@ -26,6 +26,7 @@ class BasePlugin(with_metaclass(ABCMeta)):  # pragma: no cover (abstract class)
         :return bool: Indicates that the current directory should be processed.
 
         """
+        raise NotImplementedError
 
     @abstractmethod
     def get_coverage(self, cwd):
@@ -34,6 +35,7 @@ class BasePlugin(with_metaclass(ABCMeta)):  # pragma: no cover (abstract class)
         :return float: Percentage of lines covered.
 
         """
+        raise NotImplementedError
 
     @abstractmethod
     def get_report(self, cwd):
@@ -42,6 +44,7 @@ class BasePlugin(with_metaclass(ABCMeta)):  # pragma: no cover (abstract class)
         :return str: Path to coverage report or `None` if not available.
 
         """
+        raise NotImplementedError
 
 
 def get_coverage(cwd=None):
@@ -93,7 +96,7 @@ def _launched_recently(path):
     return elapsed < 60 * 60  # 1 hour
 
 
-class CoveragePy(BasePlugin):
+class CoveragePy(BasePlugin):  # pylint: disable=no-init
     """Coverage extractor for the coverage.py format."""
 
     def matches(self, cwd):

@@ -1,10 +1,10 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
-  coverage.space <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
-  coverage.space <owner/repo> --reset [--verbose]
-  coverage.space (-h | --help)
-  coverage.space (-V | --version)
+  coveragespace <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
+  coveragespace <owner/repo> --reset [--verbose]
+  coveragespace (-h | --help)
+  coveragespace (-V | --version)
 
 Options:
   -h --help         Show this help screen.
@@ -16,17 +16,17 @@ Options:
 
 from __future__ import unicode_literals
 
-import sys
 import json
 import logging
+import sys
 
-import six
 import colorama
-from backports.shutil_get_terminal_size import get_terminal_size  # pylint: disable=relative-import
-from docopt import docopt, DocoptExit
+import six
+from backports.shutil_get_terminal_size import \
+    get_terminal_size  # pylint: disable=relative-import
+from docopt import DocoptExit, docopt
 
-from . import API, VERSION
-from . import services, client
+from . import API, VERSION, client, services
 from .plugins import get_coverage, launch_report
 
 
@@ -91,7 +91,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
         data['help'] = \
-            "To reset metrics, run: coverage.space {} --reset".format(slug)
+            "To reset metrics, run: coveragespace {} --reset".format(slug)
         display("coverage decreased", data, color)
         launch_report()
         return False
