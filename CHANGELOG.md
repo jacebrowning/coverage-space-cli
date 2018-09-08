@@ -3,8 +3,15 @@
 ## 2.0 (2018-09-08)
 
 - BREAKING: Renamed PyPI project to `coveragespace`.
-- Broadened dependency on `six` to `1.x`.
 - Added `DRONE` to the list of service environment variables.
+
+## 1.0.2 (2018/05/16)
+
+- Brocaded dependency on `coverage` and `requests` to accept any version.
+
+## 1.0.1 (2018/05/15)
+
+- Broadened dependency on `six` to `1.x`.
 
 ## 1.0 (2018-03-15)
 
