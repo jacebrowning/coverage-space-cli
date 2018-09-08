@@ -54,7 +54,8 @@ requests = "^2.0"
 [tool.poetry.dev-dependencies]
 
 # Linters
-pylint = "*"
+isort = "*"
+pylint = "<2"
 pycodestyle = "*"
 pydocstyle = "*"
 snowballstemmer = "*"  # missing dependency for 'pydocstyle'
@@ -75,11 +76,7 @@ docutils = "*"
 pygments = "*"
 
 # Build
-wheel = "*"
 pyinstaller = "*"
-
-# Release
-twine = "*"
 
 # Tooling
 sniffer = "*"

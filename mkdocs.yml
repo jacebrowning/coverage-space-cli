@@ -5,7 +5,7 @@ repo_url: https://github.com/jacebrowning/coverage-space-cli
 
 theme: readthedocs
 
-pages:
+nav:
 - Home: index.md
 - Advanced Usage: advanced.md
 - Coverage Formats: formats.md

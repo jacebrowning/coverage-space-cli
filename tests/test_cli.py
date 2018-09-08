@@ -7,8 +7,9 @@ import sys
 
 import pytest
 import scripttest
-from expecter import expect
 import six
+from expecter import expect
+
 
 SLUG = "jacebrowning/coverage-space-cli-demo"
 

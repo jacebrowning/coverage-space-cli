@@ -8,7 +8,7 @@ python:
 cache:
   pip: true
   directories:
-    - .venv
+    - ${VIRTUAL_ENV}
 
 env:
   global:

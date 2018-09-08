@@ -1,11 +1,11 @@
 # pylint: disable=missing-docstring,unused-variable,unused-argument,expression-not-assigned,singleton-comparison
 import time
-from mock import patch, Mock
 
 import pytest
 from expecter import expect
+from mock import Mock, patch
 
-from coveragespace.plugins import get_coverage, cache, _launched_recently
+from coveragespace.plugins import _launched_recently, cache, get_coverage
 
 
 class MockCoverage(Mock):

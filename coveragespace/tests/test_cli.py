@@ -1,7 +1,7 @@
 # pylint: disable=unused-variable,expression-not-assigned,singleton-comparison
 
-from mock import patch, Mock
 from expecter import expect
+from mock import Mock, patch
 
 from coveragespace import cli
 
