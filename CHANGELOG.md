@@ -1,5 +1,9 @@
 # Revision History
 
+## 2.1 (unreleased)
+
+- Added support for custom `coverage.py` data locations.
+
 ## 2.0 (2018-09-08)
 
 - BREAKING: Renamed PyPI project to `coveragespace`.
