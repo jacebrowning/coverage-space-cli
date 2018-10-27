@@ -1,6 +1,6 @@
 # Revision History
 
-## 2.1 (unreleased)
+## 2.1 (2018-10-27)
 
 - Added support for custom `coverage.py` data locations.
 
