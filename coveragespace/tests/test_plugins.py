@@ -1,4 +1,6 @@
 # pylint: disable=missing-docstring,unused-variable,unused-argument,expression-not-assigned,singleton-comparison
+
+import os
 import time
 
 import pytest
@@ -25,11 +27,32 @@ def describe_get_coverage():
         with open(".coverage", 'w') as stream:
             stream.write("""
             !coverage.py: This is a private format, don\'t read it directly!
+            {"arcs":{"foobar.py": [[-1, 2]]}}
+            """.strip())
+
+    @pytest.fixture
+    def coveragepy_data_custom(tmpdir):
+        cwd = tmpdir.chdir()
+        with open("foobar.py", 'w') as stream:
+            pass
+        with open(".coveragerc", 'w') as stream:
+            stream.write("""
+            [run]
+            data_file = .cache/coverage
+            """.strip())
+        os.makedirs('.cache')
+        with open(".cache/coverage", 'w') as stream:
+            stream.write("""
+            !coverage.py: This is a private format, don\'t read it directly!
             {"arcs":{"foobar.py": [[-1, 3]]}}
             """.strip())
 
     @patch('coverage.Coverage', MockCoverage)
     def it_supports_coveragepy(coveragepy_data):
+        expect(get_coverage()) == 42.5
+
+    @patch('coverage.Coverage', MockCoverage)
+    def it_supports_coveragepy_with_custom_location(coveragepy_data_custom):
         expect(get_coverage()) == 42.5
 
 

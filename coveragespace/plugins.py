@@ -84,7 +84,7 @@ def _find_plugin(cwd, allow_missing=False):
     if allow_missing:
         return None
 
-    raise RuntimeError(msg + '.')
+    raise RuntimeError(msg)
 
 
 def _launched_recently(path):
@@ -100,7 +100,10 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
     """Coverage extractor for the coverage.py format."""
 
     def matches(self, cwd):
-        return '.coverage' in os.listdir(cwd)
+        return any((
+            '.coverage' in os.listdir(cwd),
+            '.coveragerc' in os.listdir(cwd),
+        ))
 
     def get_coverage(self, cwd):
         os.chdir(cwd)
