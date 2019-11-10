@@ -48,6 +48,10 @@ requests = "^2.0"
 
 [tool.poetry.dev-dependencies]
 
+# Formatters
+black = { version = "=19.3b0", python = "^3.6" }
+isort = "=4.3.4"
+
 # Linters
 mypy = "*"
 pydocstyle = "*"

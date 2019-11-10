@@ -57,7 +57,7 @@ poetry.lock: pyproject.toml
 .PHONY: format
 format: install
 	poetry run isort $(PACKAGES) --recursive --apply
-	poetry run black $(PACKAGES)
+	poetry run black $(PACKAGES) || echo "Python 3.6+ required to format code"
 	@ echo
 
 .PHONY: check
