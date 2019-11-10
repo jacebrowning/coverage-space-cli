@@ -7,7 +7,6 @@ import sys
 
 import pytest
 import scripttest
-import six
 from expecter import expect
 
 
@@ -29,12 +28,11 @@ def env(tmpdir):
 def cli(env, *args):
     prog = os.path.join(os.path.dirname(sys.executable), 'coveragespace')
     cmd = env.run(prog, *args, expect_error=True)
-    six.print_(cmd)
+    print(cmd)
     return cmd
 
 
 def describe_cli():
-
     def it_fails_when_missing_arguments(env):
         cmd = cli(env)
 
@@ -42,7 +40,6 @@ def describe_cli():
         expect(cmd.stderr).contains("Usage:")
 
     def describe_update():
-
         @pytest.fixture
         def slug():
             return SLUG + "/update"
@@ -91,12 +88,10 @@ def describe_cli():
             cmd = cli(env, 'foobar', 'unit', '100')
 
             expect(cmd.returncode) == 1
-            expect(cmd.stderr).contains(
-                "<owner/repo> slug must contain a slash")
+            expect(cmd.stderr).contains("<owner/repo> slug must contain a slash")
             expect(cmd.stdout) == ""
 
     def describe_reset():
-
         @pytest.fixture
         def slug():
             return SLUG + "/reset"

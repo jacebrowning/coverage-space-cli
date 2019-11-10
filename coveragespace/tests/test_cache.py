@@ -9,7 +9,6 @@ from coveragespace.cache import Cache
 
 
 def describe_cache():
-
     @pytest.fixture
     def cache():
         return Cache()
@@ -36,7 +35,6 @@ def describe_cache():
         return cache
 
     def describe_init():
-
         def it_loads_previous_results(cache_empty):
             cache_empty.set(("url", {}), "previous")
 
@@ -50,7 +48,6 @@ def describe_cache():
             expect(Cache().get(("url", {}))) == None
 
     def describe_get():
-
         def it_hits_with_existing_data(cache_empty):
             cache = cache_empty
             cache.set(("url", {}), "existing")

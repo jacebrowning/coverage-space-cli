@@ -1,29 +1,32 @@
-Unix: [![Unix Build Status](http://img.shields.io/travis/jacebrowning/coverage-space-cli/develop.svg)](https://travis-ci.org/jacebrowning/coverage-space-cli) Windows: [![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/coverage-space-cli/develop.svg)](https://ci.appveyor.com/project/jacebrowning/coverage-space-cli)<br>Metrics: [![Coverage Status](http://img.shields.io/coveralls/jacebrowning/coverage-space-cli/develop.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli) [![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=develop)<br>Usage: [![PyPI Version](http://img.shields.io/pypi/v/coveragespace.svg)](https://pypi.python.org/pypi/coveragespace) [![PyPI License](https://img.shields.io/pypi/l/coveragespace.svg)](https://pypi.org/project/coveragespace)
-
 # Overview
 
 The official command-line client for [The Coverage Space](http://coverage.space).
+
+[![Unix Build Status](https://img.shields.io/travis/jacebrowning/coverage-space-cli/master.svg?label=unix)](https://travis-ci.org/jacebrowning/coverage-space-cli)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/coverage-space-cli/master.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/coverage-space-cli)
+[![Coverage Status](https://img.shields.io/coveralls/jacebrowning/coverage-space-cli/master.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=master)
+[![PyPI Version](https://img.shields.io/pypi/v/coveragespace.svg)](https://pypi.org/project/coveragespace)
+[![PyPI License](https://img.shields.io/pypi/l/coveragespace.svg)](https://pypi.org/project/coveragespace)
 
 # Setup
 
 ## Requirements
 
-* Python 2.7+ or Python 3.3+
+* Python 3.5+
 
 ## Installation
 
-The client can be installed with pip:
+Install this library directly into an activated virtual environment:
 
-```sh
-$ pip install --upgrade coveragespace
+```text
+$ pip install coveragespace
 ```
 
-or directly from the source code:
+or add it to your [Poetry](https://poetry.eustace.io/) project:
 
-```sh
-$ git clone https://github.com/jacebrowning/coverage-space-cli.git
-$ cd coverage-space-cli
-$ python setup.py install
+```text
+$ poetry add coveragespace
 ```
 
 # Usage

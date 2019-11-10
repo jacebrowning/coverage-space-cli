@@ -3,7 +3,6 @@ build:
     override:
       - pylint-run --rcfile=.pylint.ini
       - py-scrutinizer-run
-
 checks:
   python:
     code_rating: true

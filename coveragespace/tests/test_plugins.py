@@ -2,33 +2,33 @@
 
 import os
 import time
+from unittest.mock import Mock, patch
 
 import pytest
 from expecter import expect
-from mock import Mock, patch
 
 from coveragespace.plugins import _launched_recently, cache, get_coverage
 
 
 class MockCoverage(Mock):
-
     @staticmethod
     def report(*args, **kwargs):
         return 42.456
 
 
 def describe_get_coverage():
-
     @pytest.fixture
     def coveragepy_data(tmpdir):
         cwd = tmpdir.chdir()
         with open("foobar.py", 'w') as stream:
             pass
         with open(".coverage", 'w') as stream:
-            stream.write("""
+            stream.write(
+                """
             !coverage.py: This is a private format, don\'t read it directly!
             {"arcs":{"foobar.py": [[-1, 2]]}}
-            """.strip())
+            """.strip()
+            )
 
     @pytest.fixture
     def coveragepy_data_custom(tmpdir):
@@ -36,16 +36,20 @@ def describe_get_coverage():
         with open("foobar.py", 'w') as stream:
             pass
         with open(".coveragerc", 'w') as stream:
-            stream.write("""
+            stream.write(
+                """
             [run]
             data_file = .cache/coverage
-            """.strip())
+            """.strip()
+            )
         os.makedirs('.cache')
         with open(".cache/coverage", 'w') as stream:
-            stream.write("""
+            stream.write(
+                """
             !coverage.py: This is a private format, don\'t read it directly!
             {"arcs":{"foobar.py": [[-1, 3]]}}
-            """.strip())
+            """.strip()
+            )
 
     @patch('coverage.Coverage', MockCoverage)
     def it_supports_coveragepy(coveragepy_data):
@@ -57,7 +61,6 @@ def describe_get_coverage():
 
 
 def describe_launched_recently():
-
     def when_never_launched():
         cache.set('mock/path', 0)
         expect(_launched_recently('mock/path')) == False

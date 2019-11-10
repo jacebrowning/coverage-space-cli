@@ -4,10 +4,9 @@ import logging
 import os
 import time
 import webbrowser
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 import coverage
-from six import with_metaclass
 
 from .cache import Cache
 
@@ -16,7 +15,7 @@ log = logging.getLogger(__name__)
 cache = Cache()
 
 
-class BasePlugin(with_metaclass(ABCMeta)):  # pylint: disable=no-init
+class BasePlugin(ABC):  # pylint: disable=no-init
     """Base class for coverage plugins."""
 
     @abstractmethod
@@ -74,7 +73,7 @@ def launch_report(cwd=None):
 def _find_plugin(cwd, allow_missing=False):
     """Find an return a matching coverage plugin."""
     for cls in BasePlugin.__subclasses__():  # pylint: disable=no-member
-        plugin = cls()
+        plugin = cls()  # type: ignore
         if plugin.matches(cwd):
             return plugin
 
@@ -100,10 +99,7 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
     """Coverage extractor for the coverage.py format."""
 
     def matches(self, cwd):
-        return any((
-            '.coverage' in os.listdir(cwd),
-            '.coveragerc' in os.listdir(cwd),
-        ))
+        return any(('.coverage' in os.listdir(cwd), '.coveragerc' in os.listdir(cwd)))
 
     def get_coverage(self, cwd):
         os.chdir(cwd)
