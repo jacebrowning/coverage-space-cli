@@ -22,8 +22,7 @@ def get(url, data):
             if response.status_code == 500:
                 time.sleep(i + 1)
                 continue
-            else:
-                break
+            break
         cache.set((url, data), response)
 
     log.info("Response: %s", response)
@@ -39,8 +38,7 @@ def delete(url, data):
         if response.status_code == 500:
             time.sleep(i + 1)
             continue
-        else:
-            break
+        break
 
     log.info("Response: %s", response)
 

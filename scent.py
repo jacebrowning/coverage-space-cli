@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
 """Configuration file for sniffer."""
-# pylint: disable=superfluous-parens,bad-continuation,unpacking-non-sequence
 
-import subprocess
 import time
+import subprocess
 
-from sniffer.api import file_validator, runnable, select_runnable
-
-
+from sniffer.api import select_runnable, file_validator, runnable
 try:
     from pync import Notifier
 except ImportError:
@@ -19,7 +15,7 @@ else:
 watch_paths = ["coveragespace", "tests"]
 
 
-class Options(object):
+class Options:
     group = int(time.time())  # unique per run
     show_coverage = False
     rerun_args = None
@@ -54,12 +50,12 @@ def run_targets(*args):
 
         success = call(command, title, retry)
         if not success:
-            message = u"✅ " * (count - 1) + u"❌"
+            message = "✅ " * (count - 1) + "❌"
             show_notification(message, title)
 
             return False
 
-    message = u"✅ " * count
+    message = "✅ " * count
     title = "All Targets"
     show_notification(message, title)
     show_coverage()

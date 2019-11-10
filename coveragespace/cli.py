@@ -21,9 +21,7 @@ import logging
 import sys
 
 import colorama
-import six
-from backports.shutil_get_terminal_size import \
-    get_terminal_size  # pylint: disable=relative-import
+from backports.shutil_get_terminal_size import get_terminal_size
 from docopt import DocoptExit, docopt
 
 from . import API, VERSION, client, services
@@ -83,33 +81,32 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
             display("coverage increased", response.json(), colorama.Fore.GREEN)
         return True
 
-    elif response.status_code == 202:
+    if response.status_code == 202:
         display("coverage reset", response.json(), colorama.Fore.BLUE)
         return True
 
-    elif response.status_code == 422:
+    if response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
-        data['help'] = \
-            "To reset metrics, run: coveragespace {} --reset".format(slug)
+        message = "To reset metrics, run: coveragespace {} --reset".format(slug)
+        data['help'] = message  # type: ignore
         display("coverage decreased", data, color)
         launch_report()
         return False
 
-    else:
-        try:
-            data = response.json()
-            display("coverage unknown", data, colorama.Fore.RED)
-        except (TypeError, ValueError) as exc:
-            data = response.data.decode('utf-8')
-            log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
-        return False
+    try:
+        data = response.json()
+        display("coverage unknown", data, colorama.Fore.RED)
+    except (TypeError, ValueError) as exc:
+        data = response.data.decode('utf-8')
+        log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
+    return False
 
 
 def display(title, data, color=""):
     """Write colored text to the console."""
     color += colorama.Style.BRIGHT
     width, _ = get_terminal_size()
-    six.print_(color + "{0:=^{1}}".format(' ' + title + ' ', width))
-    six.print_(color + json.dumps(data, indent=4))
-    six.print_(color + '=' * width)
+    print(color + "{0:=^{1}}".format(' ' + title + ' ', width))
+    print(color + json.dumps(data, indent=4))
+    print(color + '=' * width)

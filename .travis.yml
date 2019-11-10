@@ -1,14 +1,10 @@
+dist: xenial
+
 language: python
 python:
-  - 2.7
-  - 3.4
   - 3.5
   - 3.6
-matrix:
-  include:
-    - python: 3.7
-      dist: xenial
-      sudo: true
+  - 3.7
 
 cache:
   pip: true
@@ -20,7 +16,10 @@ env:
     - RANDOM_SEED=0
 
 before_install:
-  - pip install poetry
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
+  - source $HOME/.poetry/env
+  - mkdir -p $HOME/.config/pypoetry
+  - touch $HOME/.config/pypoetry/config.toml
   - make doctor
 
 install:

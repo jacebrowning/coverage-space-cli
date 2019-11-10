@@ -6,7 +6,7 @@ import pickle
 log = logging.getLogger(__name__)
 
 
-class Cache(object):
+class Cache:
 
     PATH = os.path.join('.cache', 'coveragespace')
 
@@ -19,7 +19,7 @@ class Cache(object):
             with open(self.PATH, 'rb') as fin:
                 text = fin.read()
         except IOError:
-            text = None
+            text = None  # type: ignore
 
         try:
             data = pickle.loads(text)
