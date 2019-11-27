@@ -19,9 +19,9 @@ from __future__ import unicode_literals
 import json
 import logging
 import sys
+from shutil import get_terminal_size
 
 import colorama
-from backports.shutil_get_terminal_size import get_terminal_size
 from docopt import DocoptExit, docopt
 
 from . import API, VERSION, client, services

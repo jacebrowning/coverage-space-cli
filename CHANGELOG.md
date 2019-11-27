@@ -1,5 +1,9 @@
 # Revision History
 
+## 3.0 (2019-11-27)
+
+- Dropped support for Python 2.
+
 ## 2.1 (2018-10-27)
 
 - Added support for custom `coverage.py` data locations.

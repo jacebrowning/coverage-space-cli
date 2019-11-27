@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "3.0b1"
+version = "3.0"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -39,7 +39,6 @@ classifiers = [
 
 python = "^3.5"
 
-"backports.shutil-get-terminal-size" = "^1.0"
 colorama = "~0.3"
 coverage = "^4.0"
 docopt = "~0.6"
