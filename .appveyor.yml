@@ -2,10 +2,6 @@ environment:
   global:
     RANDOM_SEED: 0
   matrix:
-    - PYTHON_MAJOR: 2
-      PYTHON_MINOR: 7
-    - PYTHON_MAJOR: 3
-      PYTHON_MINOR: 4
     - PYTHON_MAJOR: 3
       PYTHON_MINOR: 5
     - PYTHON_MAJOR: 3
@@ -14,7 +10,7 @@ environment:
       PYTHON_MINOR: 7
 
 cache:
-  - .venv -> Makefile
+  - .venv -> poetry.lock
 
 install:
   # Add Make and Python to the PATH
@@ -23,7 +19,9 @@ install:
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%;%PATH%
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%\Scripts;%PATH%
   # Install system dependencies
-  - pip install poetry
+  - set POETRY_PREVIEW=true
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+  - set PATH=%USERPROFILE%\.poetry\bin;%PATH%
   - make doctor
   # Install project dependencies
   - make install
