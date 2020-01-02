@@ -1,5 +1,9 @@
 # Revision History
 
+## 3.0.1 (2020-01-01)
+
+- Dropped version requirement for `coverage` dependency.
+
 ## 3.0 (2019-11-27)
 
 - Dropped support for Python 2.
