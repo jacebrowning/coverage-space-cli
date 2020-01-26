@@ -3,6 +3,7 @@
 ## 3.1 (unreleased)
 
 - Added highlight to the reset command.
+- Dropped support for Python 3.5.
 
 ## 3.0 (2019-11-27)
 
