@@ -1,5 +1,9 @@
 # Revision History
 
+## 3.1 (unreleased)
+
+- Added highlight to the reset command.
+
 ## 3.0 (2019-11-27)
 
 - Dropped support for Python 2.
@@ -86,4 +90,4 @@
 
 ## 0.1 (2016-02-06)
 
- - Initial release.
+- Initial release.
