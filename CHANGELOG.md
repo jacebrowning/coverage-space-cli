@@ -1,6 +1,6 @@
 # Revision History
 
-## 3.1 (unreleased)
+## 3.1 (2020-01-27)
 
 - Added highlight to the reset command.
 - Dropped support for Python 3.5.
