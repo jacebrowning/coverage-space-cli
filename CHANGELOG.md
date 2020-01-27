@@ -4,6 +4,7 @@
 
 - Added highlight to the reset command.
 - Dropped support for Python 3.5.
+- Fixed caching of API requests.
 
 ## 3.0 (2019-11-27)
 

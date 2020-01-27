@@ -30,7 +30,7 @@ def describe_cache():
     @pytest.fixture
     def cache_corrupt(cache):
         # pylint: disable=protected-access
-        cache._data = "corrupt"
+        cache._data = "<corrupt>"
         cache._store()
         return cache
 
