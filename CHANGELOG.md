@@ -1,5 +1,11 @@
 # Revision History
 
+## 3.1 (2020-01-27)
+
+- Added highlight to the reset command.
+- Dropped support for Python 3.5.
+- Fixed caching of API requests.
+
 ## 3.0.1 (2020-01-01)
 
 - Dropped version requirement for `coverage` dependency.
@@ -90,4 +96,4 @@
 
 ## 0.1 (2016-02-06)
 
- - Initial release.
+- Initial release.

@@ -12,22 +12,6 @@ class Cache:
 
     def __init__(self):
         self._data = {}
-        self._load()
-
-    def _load(self):
-        try:
-            with open(self.PATH, 'rb') as fin:
-                text = fin.read()
-        except IOError:
-            text = None  # type: ignore
-
-        try:
-            data = pickle.loads(text)
-        except (TypeError, KeyError, IndexError):
-            data = None
-
-        if isinstance(data, dict):
-            self._data = data
 
     def _store(self):
         directory = os.path.dirname(self.PATH)
@@ -38,30 +22,45 @@ class Cache:
         with open(self.PATH, 'wb') as fout:
             fout.write(text)
 
-    def set(self, key, value):
+    def _load(self):
         try:
-            url, data = key
-        except ValueError:
-            log.debug("Setting cache for %s", key)
+            with open(self.PATH, 'rb') as fin:
+                text = fin.read()
+        except IOError as e:
+            log.debug("Unable to read cache: %s", e)
+            return
+
+        try:
+            data = pickle.loads(text)
+        except (TypeError, KeyError, IndexError) as e:
+            log.debug("Unable to parse cache: %s", e)
+
+        if isinstance(data, dict):
+            self._data = data
         else:
-            log.debug("Setting cache for %s: %s", url, data)
-            key = self._slugify(*key)
-        self._data[key] = value
+            log.debug("Invalid cache value: %s", data)
+            self._data = {}
+
+    def set(self, key, value):
+        slug = self._slugify(key)
+        log.debug("Setting cache key: %s", slug)
+        self._data[slug] = value
         log.debug("Cached value: %s", value)
         self._store()
 
     def get(self, key, default=None):
-        try:
-            url, data = key
-        except ValueError:
-            log.debug("Getting cache for %s", key)
-        else:
-            log.debug("Getting cache for %s: %s", url, data)
-            key = self._slugify(*key)
-        value = self._data.get(key, default)
+        self._load()
+        slug = self._slugify(key)
+        log.debug("Getting cache key: %s", slug)
+        value = self._data.get(slug, default)
         log.debug("Cached value: %s", value)
         return value
 
     @staticmethod
-    def _slugify(url, data):
-        return (url, hash(frozenset(data.items())))
+    def _slugify(key):
+        try:
+            url, data = key
+        except ValueError:
+            return key
+        else:
+            return url, tuple(data.items())

@@ -88,7 +88,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
     if response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
-        message = "To reset metrics, run: coveragespace {} --reset".format(slug)
+        message = "To reset metrics, run: ^coveragespace {} --reset$".format(slug)
         data['help'] = message  # type: ignore
         display("coverage decreased", data, color)
         launch_report()
@@ -108,5 +108,8 @@ def display(title, data, color=""):
     color += colorama.Style.BRIGHT
     width, _ = get_terminal_size()
     print(color + "{0:=^{1}}".format(' ' + title + ' ', width))
-    print(color + json.dumps(data, indent=4))
+    message = json.dumps(data, indent=4)
+    message = message.replace('^', colorama.Fore.WHITE + colorama.Style.BRIGHT)
+    message = message.replace('$', colorama.Style.RESET_ALL)
+    print(message)
     print(color + '=' * width)
