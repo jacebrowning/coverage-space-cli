@@ -1,5 +1,9 @@
 # Revision History
 
+## 3.1.1 (2020-02-01)
+
+- Fixed caching to clear after resetting metrics.
+
 ## 3.1 (2020-01-27)
 
 - Added highlight to the reset command.

@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "3.1"
+version = "3.1.1"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -27,6 +27,7 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Topic :: Software Development",

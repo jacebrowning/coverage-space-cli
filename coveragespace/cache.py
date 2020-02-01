@@ -56,6 +56,10 @@ class Cache:
         log.debug("Cached value: %s", value)
         return value
 
+    def clear(self):
+        self._data = {}
+        self._store()
+
     @staticmethod
     def _slugify(key):
         try:

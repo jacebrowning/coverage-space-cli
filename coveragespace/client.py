@@ -17,10 +17,10 @@ def get(url, data):
 
     response = cache.get((url, data))
     if response is None:
-        for i in range(3):
+        for delay in [1, 3, 5]:
             response = requests.put(url, data=data)
             if response.status_code == 500:
-                time.sleep(i + 1)
+                time.sleep(delay)
                 continue
             break
         cache.set((url, data), response)
@@ -33,13 +33,15 @@ def get(url, data):
 def delete(url, data):
     log.info("Deleting %s: %s", url, data)
 
-    for i in range(3):
+    for delay in [1, 3, 5]:
         response = requests.delete(url, data=data)
         if response.status_code == 500:
-            time.sleep(i + 1)
+            time.sleep(delay)
             continue
         break
 
     log.info("Response: %s", response)
+
+    cache.clear()
 
     return response
