@@ -16,18 +16,15 @@ Options:
 
 
 import json
-import logging
 import sys
 from shutil import get_terminal_size
 
 import colorama
+import log
 from docopt import DocoptExit, docopt
 
 from . import API, VERSION, client, services
 from .plugins import get_coverage, launch_report
-
-
-log = logging.getLogger(__name__)
 
 
 def main():
@@ -42,10 +39,8 @@ def main():
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
-    logging.basicConfig(
-        level=logging.DEBUG if verbose else logging.WARNING,
-        format="%(levelname)s: %(name)s: %(message)s",
-    )
+    log.reset()
+    log.init(level=log.DEBUG if verbose else log.WARNING)
 
     if '/' not in slug:
         raise DocoptExit("<owner/repo> slug must contain a slash" + '\n')

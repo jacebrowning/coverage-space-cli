@@ -1,14 +1,14 @@
 """API client functions."""
 
-import logging
+
 import time
 
+import log
 import requests
 
 from .cache import Cache
 
 
-log = logging.getLogger(__name__)
 cache = Cache()
 
 

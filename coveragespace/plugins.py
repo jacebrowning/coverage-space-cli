@@ -1,17 +1,17 @@
 """Plugins to extract coverage data from various formats."""
 
-import logging
+
 import os
 import time
 import webbrowser
 from abc import ABC, abstractmethod
 
 import coverage
+import log
 
 from .cache import Cache
 
 
-log = logging.getLogger(__name__)
 cache = Cache()
 
 
