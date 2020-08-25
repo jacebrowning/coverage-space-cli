@@ -6,6 +6,8 @@ environment:
       PYTHON_MINOR: 6
     - PYTHON_MAJOR: 3
       PYTHON_MINOR: 7
+    - PYTHON_MAJOR: 3
+      PYTHON_MINOR: 8
 
 cache:
   - .venv -> poetry.lock
@@ -17,7 +19,6 @@ install:
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%;%PATH%
   - set PATH=C:\Python%PYTHON_MAJOR%%PYTHON_MINOR%\Scripts;%PATH%
   # Install system dependencies
-  - set POETRY_PREVIEW=true
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
   - set PATH=%USERPROFILE%\.poetry\bin;%PATH%
   - make doctor
