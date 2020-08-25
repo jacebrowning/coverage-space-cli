@@ -1,9 +1,7 @@
-import logging
 import os
 import pickle
 
-
-log = logging.getLogger(__name__)
+import log
 
 
 class Cache:

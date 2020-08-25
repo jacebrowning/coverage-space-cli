@@ -37,12 +37,12 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-python = "^3.5"
+python = "^3.6"
 
 colorama = "~0.3"
 coverage = "*"
 docopt = "~0.6"
-minilog = "*"
+minilog = "^1.6"
 requests = "^2.0"
 
 [tool.poetry.dev-dependencies]
