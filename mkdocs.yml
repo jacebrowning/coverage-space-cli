@@ -3,15 +3,15 @@ site_description: The official command-line client for The Coverage Space.
 site_author: Jace Browning
 
 repo_url: https://github.com/jacebrowning/coverage-space-cli
-edit_uri: https://github.com/jacebrowning/coverage-space-cli/edit/develop/docs
+edit_uri: https://github.com/jacebrowning/coverage-space-cli/edit/main/docs
 
 theme: readthedocs
 
 nav:
-- Home: index.md
-- Advanced Usage: advanced.md
-- Coverage Formats: formats.md
-- About:
-  - Release Notes: about/changelog.md
-  - Contributing: about/contributing.md
-  - License: about/license.md
+  - Home: index.md
+  - Advanced Usage: advanced.md
+  - Coverage Formats: formats.md
+  - About:
+      - Release Notes: about/changelog.md
+      - Contributing: about/contributing.md
+      - License: about/license.md

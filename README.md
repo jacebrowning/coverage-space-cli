@@ -2,10 +2,10 @@
 
 The official command-line client for [The Coverage Space](http://coverage.space).
 
-[![Unix Build Status](https://img.shields.io/travis/jacebrowning/coverage-space-cli/master.svg?label=unix)](https://travis-ci.org/jacebrowning/coverage-space-cli)
-[![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/coverage-space-cli/master.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/coverage-space-cli)
-[![Coverage Status](https://img.shields.io/coveralls/jacebrowning/coverage-space-cli/master.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=master)
+[![Unix Build Status](https://img.shields.io/travis/jacebrowning/coverage-space-cli/main.svg?label=unix)](https://travis-ci.org/jacebrowning/coverage-space-cli)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/jacebrowning/coverage-space-cli/main.svg?label=window)](https://ci.appveyor.com/project/jacebrowning/coverage-space-cli)
+[![Coverage Status](https://img.shields.io/coveralls/jacebrowning/coverage-space-cli/main.svg)](https://coveralls.io/r/jacebrowning/coverage-space-cli)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/jacebrowning/coverage-space-cli.svg)](https://scrutinizer-ci.com/g/jacebrowning/coverage-space-cli/?branch=main)
 [![PyPI Version](https://img.shields.io/pypi/v/coveragespace.svg)](https://pypi.org/project/coveragespace)
 [![PyPI License](https://img.shields.io/pypi/l/coveragespace.svg)](https://pypi.org/project/coveragespace)
 
@@ -13,7 +13,7 @@ The official command-line client for [The Coverage Space](http://coverage.space)
 
 ## Requirements
 
-* Python 3.5+
+- Python 3.5+
 
 ## Installation
 
