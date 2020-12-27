@@ -15,8 +15,7 @@ def describe_cache():
 
     @pytest.fixture
     def cache_empty(cache):
-        # pylint: disable=protected-access
-        cache._data.clear()
+        cache.clear()
         return cache
 
     @pytest.fixture

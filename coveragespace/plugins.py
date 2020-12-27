@@ -56,18 +56,20 @@ def get_coverage(cwd=None):
     return round(percentage, 1)
 
 
-def launch_report(cwd=None):
+def launch_report(cwd=None, *, always=False):
     """Open the generated coverage report in a web browser."""
     cwd = cwd or os.getcwd()
 
     plugin = _find_plugin(cwd, allow_missing=True)
 
     if plugin:
-        path = plugin.get_report(cwd)
+        report = plugin.get_report(cwd)
 
-        if path and not _launched_recently(path):
-            log.info("Launching report: %s", path)
-            webbrowser.open("file://" + path, new=2, autoraise=True)
+        if report and (always or not _launched_recently(report)):
+            log.info("Launching report: %s", report)
+            webbrowser.open("file://" + report, new=2, autoraise=True)
+        elif always:
+            log.error("No coverage report found")
 
 
 def _find_plugin(cwd, allow_missing=False):

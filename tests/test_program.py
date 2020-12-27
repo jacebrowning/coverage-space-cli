@@ -101,3 +101,11 @@ def describe_cli():
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
             expect(cmd.stdout).contains("coverage reset")
+
+    def describe_view():
+        def it_launches_the_local_coverage_report(env):
+            cmd = cli(env, 'view')
+
+            expect(cmd.returncode) == 0
+            expect(cmd.stderr) == ""
+            expect(cmd.stdout).contains("")
