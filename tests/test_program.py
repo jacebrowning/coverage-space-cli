@@ -14,18 +14,18 @@ SLUG = "jacebrowning/coverage-space-cli-demo"
 
 @pytest.fixture
 def env(tmpdir):
-    path = str(tmpdir.join('test'))
+    path = str(tmpdir.join("test"))
     env = scripttest.TestFileEnvironment(path)
-    env.environ.pop('APPVEYOR', None)
-    env.environ.pop('CI', None)
-    env.environ.pop('CONTINUOUS_INTEGRATION', None)
-    env.environ.pop('DISABLE_COVERAGE', None)
-    env.environ.pop('TRAVIS', None)
+    env.environ.pop("APPVEYOR", None)
+    env.environ.pop("CI", None)
+    env.environ.pop("CONTINUOUS_INTEGRATION", None)
+    env.environ.pop("DISABLE_COVERAGE", None)
+    env.environ.pop("TRAVIS", None)
     return env
 
 
 def cli(env, *args):
-    prog = os.path.join(os.path.dirname(sys.executable), 'coveragespace')
+    prog = os.path.join(os.path.dirname(sys.executable), "coveragespace")
     cmd = env.run(prog, *args, expect_error=True)
     print(cmd)
     return cmd
@@ -44,14 +44,14 @@ def describe_cli():
             return SLUG + "/update"
 
         def it_can_update_metrics(env, slug):
-            cmd = cli(env, slug, 'unit', '100')
+            cmd = cli(env, slug, "unit", "100")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
             expect(cmd.stdout) == ""
 
         def it_indicates_when_metrics_decrease(env, slug):
-            cmd = cli(env, slug, 'unit', '0')
+            cmd = cli(env, slug, "unit", "0")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
@@ -61,30 +61,30 @@ def describe_cli():
             )
 
         def it_fails_when_metrics_decrease_if_requested(env, slug):
-            cmd = cli(env, slug, 'unit', '0', '--exit-code')
+            cmd = cli(env, slug, "unit", "0", "--exit-code")
 
             expect(cmd.returncode) == 1
             expect(cmd.stderr) == ""
             expect(cmd.stdout).contains("coverage decreased")
 
         def it_always_display_metrics_when_verbose(env, slug):
-            cmd = cli(env, slug, 'unit', '100', '--verbose')
+            cmd = cli(env, slug, "unit", "100", "--verbose")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) != ""  # expect lots of logging
             expect(cmd.stdout).contains("coverage increased")
 
         def it_skips_when_running_on_ci(env, slug):
-            env.environ['CI'] = 'true'
+            env.environ["CI"] = "true"
 
-            cmd = cli(env, slug, 'unit', '0', '--exit-code', '--verbose')
+            cmd = cli(env, slug, "unit", "0", "--exit-code", "--verbose")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr).contains("Coverage check skipped")
             expect(cmd.stdout) == ""
 
         def it_fails_on_slugs_missing_a_slash(env):
-            cmd = cli(env, 'foobar', 'unit', '100')
+            cmd = cli(env, "foobar", "unit", "100")
 
             expect(cmd.returncode) == 1
             expect(cmd.stderr).contains("<owner/repo> slug must contain a slash")
@@ -96,7 +96,7 @@ def describe_cli():
             return SLUG + "/reset"
 
         def it_can_reset_metrics(env, slug):
-            cmd = cli(env, slug, '--reset')
+            cmd = cli(env, slug, "--reset")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
@@ -104,7 +104,7 @@ def describe_cli():
 
     def describe_view():
         def it_launches_the_local_coverage_report(env):
-            cmd = cli(env, 'view')
+            cmd = cli(env, "view")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""

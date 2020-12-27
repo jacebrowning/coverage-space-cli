@@ -5,17 +5,17 @@ import os
 
 CONTINUOUS_INTEGRATION = [
     # General
-    'CI',
-    'CONTINUOUS_INTEGRATION',
-    'DISABLE_COVERAGE',
+    "CI",
+    "CONTINUOUS_INTEGRATION",
+    "DISABLE_COVERAGE",
     # Travis CI
-    'TRAVIS',
+    "TRAVIS",
     # Appveyor
-    'APPVEYOR',
+    "APPVEYOR",
     # CircleCI
-    'CIRCLECI',
+    "CIRCLECI",
     # Drone
-    'DRONE',
+    "DRONE",
 ]
 
 

@@ -31,9 +31,9 @@ def main():
     colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
 
-    slug = arguments['<owner/repo>']
-    verbose = arguments['--verbose']
-    hardfail = arguments['--exit-code']
+    slug = arguments["<owner/repo>"]
+    verbose = arguments["--verbose"]
+    hardfail = arguments["--exit-code"]
 
     log.init(level=log.DEBUG if verbose else log.WARNING)
 
@@ -41,19 +41,19 @@ def main():
         log.info("Coverage check skipped when running on CI service")
         sys.exit()
 
-    if arguments['view']:
+    if arguments["view"]:
         success = view()
-    elif '/' in slug:
+    elif "/" in slug:
         success = call(
             slug,
-            arguments['<metric>'],
-            arguments['<value>'],
-            arguments['--reset'],
+            arguments["<metric>"],
+            arguments["<value>"],
+            arguments["--reset"],
             verbose,
             hardfail,
         )
     else:
-        raise DocoptExit("<owner/repo> slug must contain a slash" + '\n')
+        raise DocoptExit("<owner/repo> slug must contain a slash" + "\n")
 
     if not success and hardfail:
         sys.exit(1)
@@ -82,7 +82,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
         message = "To reset metrics, run: ^coveragespace {} --reset$".format(slug)
-        data['help'] = message  # type: ignore
+        data["help"] = message  # type: ignore
         display("coverage decreased", data, color)
         plugins.launch_report()
         return False
@@ -91,7 +91,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data = response.json()
         display("coverage unknown", data, colorama.Fore.RED)
     except (TypeError, ValueError) as exc:
-        data = response.data.decode('utf-8')
+        data = response.data.decode("utf-8")
         log.error("%s\n\nwhen decoding response:\n\n%s\n", exc, data)
     return False
 
@@ -100,12 +100,12 @@ def display(title, data, color=""):
     """Write colored text to the console."""
     color += colorama.Style.BRIGHT
     width, _ = get_terminal_size()
-    print(color + "{0:=^{1}}".format(' ' + title + ' ', width))
+    print(color + "{0:=^{1}}".format(" " + title + " ", width))
     message = json.dumps(data, indent=4)
-    message = message.replace('^', colorama.Fore.WHITE + colorama.Style.BRIGHT)
-    message = message.replace('$', colorama.Style.RESET_ALL)
+    message = message.replace("^", colorama.Fore.WHITE + colorama.Style.BRIGHT)
+    message = message.replace("$", colorama.Style.RESET_ALL)
     print(message)
-    print(color + '=' * width)
+    print(color + "=" * width)
 
 
 def view():

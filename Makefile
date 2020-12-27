@@ -45,9 +45,11 @@ $(DEPENDENCIES): poetry.lock
 	poetry install
 	@ touch $@
 
+ifndef CI
 poetry.lock: pyproject.toml
-	poetry lock
+	poetry lock --no-update
 	@ touch $@
+endif
 
 .cache:
 	@ mkdir -p .cache
@@ -56,7 +58,7 @@ poetry.lock: pyproject.toml
 
 .PHONY: format
 format: install
-	poetry run isort $(PACKAGES) --recursive --apply
+	poetry run isort $(PACKAGES)
 	poetry run black $(PACKAGES)
 	@ echo
 
@@ -75,8 +77,8 @@ RANDOM_SEED ?= $(shell date +%s)
 FAILURES := .cache/v/cache/lastfailed
 
 PYTEST_OPTIONS := --random --random-seed=$(RANDOM_SEED)
-ifdef DISABLE_COVERAGE
-PYTEST_OPTIONS += --no-cov --disable-warnings
+ifndef DISABLE_COVERAGE
+PYTEST_OPTIONS += --cov=$(PACKAGE)
 endif
 PYTEST_RERUN_OPTIONS := --last-failed --exitfirst
 
