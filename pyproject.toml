@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "3.2b1"
+version = "4.0a1"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -77,7 +77,7 @@ pync = { version = "*", platform = "darwin" }
 
 [tool.poetry.scripts]
 
-"coveragespace" = "coveragespace.cli:main"
+coveragespace = "coveragespace.cli:main"
 
 [tool.black]
 

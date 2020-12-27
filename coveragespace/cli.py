@@ -3,6 +3,7 @@
 Usage:
   coveragespace <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
   coveragespace <owner/repo> --reset [--verbose]
+  coveragespace view [--verbose]
   coveragespace (-h | --help)
   coveragespace (-V | --version)
 
@@ -23,41 +24,41 @@ import colorama
 import log
 from docopt import DocoptExit, docopt
 
-from . import API, VERSION, client, services
-from .plugins import get_coverage, launch_report
+from . import API, VERSION, client, plugins, services
 
 
 def main():
     """Parse command-line arguments, configure logging, and run the program."""
+    if services.detected():
+        log.info("Coverage check skipped when running on CI service")
+        sys.exit()
+
     colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
 
     slug = arguments['<owner/repo>']
-    metric = arguments['<metric>']
-    reset = arguments['--reset']
-    value = arguments['<value>']
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
     log.reset()
     log.init(level=log.DEBUG if verbose else log.WARNING)
 
-    if '/' not in slug:
+    if arguments['view']:
+        success = view()
+    elif '/' in slug:
+        success = call(
+            slug,
+            arguments['<metric>'],
+            arguments['<value>'],
+            arguments['--reset'],
+            verbose,
+            hardfail,
+        )
+    else:
         raise DocoptExit("<owner/repo> slug must contain a slash" + '\n')
-
-    success = run(slug, metric, value, reset, verbose, hardfail)
 
     if not success and hardfail:
         sys.exit(1)
-
-
-def run(*args, **kwargs):
-    """Run the program."""
-    if services.detected():
-        log.info("Coverage check skipped when running on CI service")
-        return True
-
-    return call(*args, **kwargs)
 
 
 def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
@@ -67,7 +68,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data = {metric: None}
         response = client.delete(url, data)
     else:
-        data = {metric: value or get_coverage()}
+        data = {metric: value or plugins.get_coverage()}
         response = client.get(url, data)
 
     if response.status_code == 200:
@@ -85,7 +86,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         message = "To reset metrics, run: ^coveragespace {} --reset$".format(slug)
         data['help'] = message  # type: ignore
         display("coverage decreased", data, color)
-        launch_report()
+        plugins.launch_report()
         return False
 
     try:
@@ -107,3 +108,9 @@ def display(title, data, color=""):
     message = message.replace('$', colorama.Style.RESET_ALL)
     print(message)
     print(color + '=' * width)
+
+
+def view():
+    """View the local coverage report."""
+    plugins.launch_report(always=True)
+    return True

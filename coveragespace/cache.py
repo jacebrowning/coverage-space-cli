@@ -17,13 +17,13 @@ class Cache:
             os.makedirs(directory)
 
         text = pickle.dumps(self._data)
-        with open(self.PATH, 'wb') as fout:
-            fout.write(text)
+        with open(self.PATH, 'wb') as f:
+            f.write(text)
 
     def _load(self):
         try:
-            with open(self.PATH, 'rb') as fin:
-                text = fin.read()
+            with open(self.PATH, 'rb') as f:
+                text = f.read()
         except IOError as e:
             log.debug("Unable to read cache: %s", e)
             return
@@ -55,6 +55,7 @@ class Cache:
         return value
 
     def clear(self):
+        log.debug("Clearing cache")
         self._data = {}
         self._store()
 
