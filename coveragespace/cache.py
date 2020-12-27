@@ -6,7 +6,7 @@ import log
 
 class Cache:
 
-    PATH = os.path.join('.cache', 'coveragespace')
+    PATH = os.path.join(".cache", "coveragespace")
 
     def __init__(self):
         self._data = {}
@@ -17,12 +17,12 @@ class Cache:
             os.makedirs(directory)
 
         text = pickle.dumps(self._data)
-        with open(self.PATH, 'wb') as f:
+        with open(self.PATH, "wb") as f:
             f.write(text)
 
     def _load(self):
         try:
-            with open(self.PATH, 'rb') as f:
+            with open(self.PATH, "rb") as f:
                 text = f.read()
         except IOError as e:
             log.debug("Unable to read cache: %s", e)

@@ -101,7 +101,7 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
     """Coverage extractor for the coverage.py format."""
 
     def matches(self, cwd):
-        return any(('.coverage' in os.listdir(cwd), '.coveragerc' in os.listdir(cwd)))
+        return any((".coverage" in os.listdir(cwd), ".coveragerc" in os.listdir(cwd)))
 
     def get_coverage(self, cwd):
         os.chdir(cwd)
@@ -109,13 +109,13 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
         cov = coverage.Coverage()
         cov.load()
 
-        with open(os.devnull, 'w') as ignore:
+        with open(os.devnull, "w") as ignore:
             total = cov.report(file=ignore)
 
         return total
 
     def get_report(self, cwd):
-        path = os.path.join(cwd, 'htmlcov', 'index.html')
+        path = os.path.join(cwd, "htmlcov", "index.html")
 
         if os.path.isfile(path):
             log.info("Found coverage report: %s", path)

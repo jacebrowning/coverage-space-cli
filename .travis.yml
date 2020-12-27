@@ -18,8 +18,6 @@ env:
 before_install:
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
   - source $HOME/.poetry/env
-  - mkdir -p $HOME/.config/pypoetry
-  - touch $HOME/.config/pypoetry/config.toml
   - make doctor
 
 install:
