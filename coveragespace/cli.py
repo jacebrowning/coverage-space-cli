@@ -15,7 +15,6 @@ Options:
 
 """
 
-
 import json
 import sys
 from shutil import get_terminal_size
@@ -29,10 +28,6 @@ from . import API, VERSION, client, plugins, services
 
 def main():
     """Parse command-line arguments, configure logging, and run the program."""
-    if services.detected():
-        log.info("Coverage check skipped when running on CI service")
-        sys.exit()
-
     colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
 
@@ -40,8 +35,11 @@ def main():
     verbose = arguments['--verbose']
     hardfail = arguments['--exit-code']
 
-    log.reset()
     log.init(level=log.DEBUG if verbose else log.WARNING)
+
+    if services.detected():
+        log.info("Coverage check skipped when running on CI service")
+        sys.exit()
 
     if arguments['view']:
         success = view()
