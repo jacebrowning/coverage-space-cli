@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from expecter import expect
 
-from coveragespace import cli
+from .. import cli
 
 
 def describe_call():

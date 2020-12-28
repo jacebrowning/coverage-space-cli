@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 import pytest
 from expecter import expect
 
-from coveragespace.plugins import _launched_recently, cache, get_coverage
+from ..coverage import _launched_recently, cache, get_coverage
 
 
 class MockCoverage(Mock):

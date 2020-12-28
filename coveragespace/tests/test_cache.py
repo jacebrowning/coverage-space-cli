@@ -5,7 +5,7 @@ import os
 import pytest
 from expecter import expect
 
-from coveragespace.cache import Cache
+from ..cache import Cache
 
 
 def describe_cache():

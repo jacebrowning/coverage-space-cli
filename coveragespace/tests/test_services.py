@@ -2,7 +2,7 @@
 
 from expecter import expect
 
-from coveragespace import services
+from .. import services
 
 
 def describe_detected():

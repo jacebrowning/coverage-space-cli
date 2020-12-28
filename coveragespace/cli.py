@@ -23,7 +23,7 @@ import colorama
 import log
 from docopt import DocoptExit, docopt
 
-from . import API, VERSION, client, plugins, services
+from . import API, VERSION, client, coverage, services
 
 
 def main():
@@ -66,7 +66,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data = {metric: None}
         response = client.delete(url, data)
     else:
-        data = {metric: value or plugins.get_coverage()}
+        data = {metric: value or coverage.get_coverage()}
         response = client.get(url, data)
 
     if response.status_code == 200:
@@ -84,7 +84,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         message = "To reset metrics, run: ^coveragespace {} --reset$".format(slug)
         data["help"] = message  # type: ignore
         display("coverage decreased", data, color)
-        plugins.launch_report()
+        coverage.launch_report()
         return False
 
     try:
@@ -110,5 +110,5 @@ def display(title, data, color=""):
 
 def view():
     """View the local coverage report."""
-    plugins.launch_report(always=True)
+    coverage.launch_report(always=True)
     return True
