@@ -1,6 +1,5 @@
 """API client functions."""
 
-
 import time
 
 import log

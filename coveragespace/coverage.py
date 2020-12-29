@@ -1,6 +1,5 @@
 """Plugins to extract coverage data from various formats."""
 
-
 import os
 import time
 import webbrowser

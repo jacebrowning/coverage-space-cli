@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "4.0a2"
+version = "4.0a3"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -54,7 +54,7 @@ isort = "=5.5.1"
 # Linters
 mypy = "*"
 pydocstyle = "*"
-pylint = "^2.0"
+pylint = "^2.6"
 
 # Testing
 pytest = "^5.0"

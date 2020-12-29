@@ -1,5 +1,9 @@
 # Revision History
 
+# 4.0 (alpha)
+
+- **BREAKING:** Removed `<owner/repo>` CLI argument in favor of automatic detection.
+
 ## 3.1.1 (2020-02-01)
 
 - Fixed caching to clear after resetting metrics.
@@ -24,7 +28,7 @@
 
 ## 2.0 (2018-09-08)
 
-- BREAKING: Renamed PyPI project to `coveragespace`.
+- **BREAKING:** Renamed PyPI project to `coveragespace`.
 - Added `DRONE` to the list of service environment variables.
 
 ## 1.0.2 (2018/05/16)
@@ -37,7 +41,7 @@
 
 ## 1.0 (2018-03-15)
 
-- BREAKING: Renamed PyPI project to `coverage-space`.
+- **BREAKING:** Renamed PyPI project to `coverage-space`.
 
 ## 0.8 (2017-04-16)
 
