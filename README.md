@@ -17,13 +17,12 @@ The official command-line client for [The Coverage Space](http://coverage.space)
 
 ## Installation
 
-Install this library directly into an activated virtual environment:
+Install this tool globally with [pipx](https://pipxproject.github.io/pipx/) (or pip):
 
 ```text
-$ pip install coveragespace
+$ pipx install coveragespace
 ```
-
-or add it to your [Poetry](https://poetry.eustace.io/) project:
+or add it to your [Poetry](https://python-poetry.org/docs/) project:
 
 ```text
 $ poetry add coveragespace
@@ -33,18 +32,24 @@ $ poetry add coveragespace
 
 To update the value for a test coverage metric:
 
-```sh
-$ coveragespace <owner/repo> <metric>
+```text
+$ coveragespace set <metric>
 ```
 
-For example, after testing with code coverage enabled:
+where `<metric>` is one of:
 
-```sh
-$ coveragespace owner/repo unit
+- **unit**
+- **integration**
+- **overall**
+
+For example, after running unit tests with code coverage enabled:
+
+```text
+$ coveragespace set unit
 ```
 
-will attempt to extract the current coverage data from your working tree and compare that with the last known value. The coverage value can also be manually specified:
+which will attempt to extract the current coverage data from your project directory and compare that with the last known value. The coverage value can also be manually specified:
 
-```sh
-$ coveragespace <owner/repo> <metric> <value>
+```text
+$ coveragespace set <metric> <value>
 ```
