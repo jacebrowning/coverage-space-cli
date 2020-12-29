@@ -106,14 +106,18 @@ def call(
 
 def display(title, data, color=""):
     """Write colored text to the console."""
-    color += colorama.Style.BRIGHT
     width, _ = get_terminal_size()
-    print(color + "{0:=^{1}}".format(" " + title + " ", width))
-    message = json.dumps(data, indent=4)
-    message = message.replace("^", colorama.Fore.WHITE + colorama.Style.BRIGHT)
-    message = message.replace("$", colorama.Style.RESET_ALL)
-    print(message)
-    print(color + "=" * width)
+    header = color + "{0:=^{1}}".format(" " + title + " ", width)
+    header = header.replace(
+        title, colorama.Style.BRIGHT + title + colorama.Style.NORMAL
+    )
+    body = json.dumps(data, indent=4)
+    body = body.replace("^", colorama.Fore.WHITE + colorama.Style.BRIGHT)
+    body = body.replace("$", colorama.Style.RESET_ALL)
+    footer = color + "=" * width
+    print(header)
+    print(body)
+    print(footer)
 
 
 def view():
