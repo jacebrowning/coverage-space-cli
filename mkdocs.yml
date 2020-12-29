@@ -10,7 +10,7 @@ theme: readthedocs
 nav:
   - Home: index.md
   - Advanced Usage: advanced.md
-  - Coverage Formats: formats.md
+  - Supported Formats: formats.md
   - About:
       - Release Notes: about/changelog.md
       - Contributing: about/contributing.md

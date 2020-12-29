@@ -1,23 +1,41 @@
-# Metrics Reset
+# Advanced Usage
+
+The client can also be used to view and reset coverage metrics.
+
+## Viewing Reports
+
+To update the overall coverage metric and view the local coverage report:
+
+```text
+$ coveragespace
+```
+
+or to simply view the current report:
+
+```text
+$ coveragespace view
+```
+
+## Resetting Metrics
 
 If code coverage metrics have decreased, but you would like to silence the warning and reset metrics to the next received value:
 
-```sh
-$ coveragespace <owner/repo> --reset
+```text
+$ coveragespace reset
 ```
 
-# Verbosity
+## Increasing Verbosity
 
 To always display the coverage results, use the `--verbose` option:
 
-```sh
-$ coveragespace <owner/repo> <metric> --verbose
+```text
+$ coveragespace set <metric> --verbose
 ```
 
-# Exit Codes
+## Exit Codes
 
 To return a non-zero exit code when coverage decreases, use the `--exit-code` option:
 
-```sh
-$ coveragespace <owner/repo> <metric> --exit-code
+```text
+$ coveragespace set <metric> --exit-code
 ```
