@@ -1,15 +1,5 @@
-# Project settings
-PROJECT := coveragespace
 PACKAGE := coveragespace
-REPOSITORY := jacebrowning/coverage-space-cli
-
-# Project paths
-PACKAGES := $(PACKAGE) tests
-CONFIG := $(wildcard *.py)
 MODULES := $(wildcard $(PACKAGE)/*.py)
-
-# Virtual environment paths
-VIRTUAL_ENV ?= .venv
 
 # MAIN TASKS ##################################################################
 
@@ -35,6 +25,7 @@ doctor:  ## Confirm system dependencies are available
 
 # PROJECT DEPENDENCIES ########################################################
 
+VIRTUAL_ENV ?= .venv
 DEPENDENCIES := $(VIRTUAL_ENV)/.poetry-$(shell bin/checksum pyproject.toml poetry.lock)
 
 .PHONY: install
@@ -58,8 +49,8 @@ endif
 
 .PHONY: format
 format: install
-	poetry run isort $(PACKAGES)
-	poetry run black $(PACKAGES)
+	poetry run isort $(PACKAGE) tests
+	poetry run black $(PACKAGE) tests
 	@ echo
 
 .PHONY: check
@@ -67,9 +58,9 @@ check: install format  ## Run formaters, linters, and static analysis
 ifdef CI
 	git diff --exit-code
 endif
-	poetry run mypy $(PACKAGES) --config-file=.mypy.ini
-	poetry run pylint $(PACKAGES) --rcfile=.pylint.ini
-	poetry run pydocstyle $(PACKAGES) $(CONFIG)
+	poetry run mypy $(PACKAGE) tests --config-file=.mypy.ini
+	poetry run pylint $(PACKAGE) tests --rcfile=.pylint.ini
+	poetry run pydocstyle $(PACKAGE) tests
 
 # TESTS #######################################################################
 
@@ -101,9 +92,9 @@ test-int: install
 
 .PHONY: test-all
 test-all: install
-	@ if test -e $(FAILURES); then poetry run pytest $(PACKAGES) $(PYTEST_RERUN_OPTIONS); fi
+	@ if test -e $(FAILURES); then poetry run pytest $(PACKAGE) tests $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
-	poetry run pytest $(PACKAGES) $(PYTEST_OPTIONS)
+	poetry run pytest $(PACKAGE) tests $(PYTEST_OPTIONS)
 	poetry run coveragespace set overall
 
 .PHONY: read-coverage
@@ -146,7 +137,7 @@ mkdocs-serve: mkdocs
 # BUILD #######################################################################
 
 DIST_FILES := dist/*.tar.gz dist/*.whl
-EXE_FILES := dist/$(PROJECT).*
+EXE_FILES := dist/$(PACKAGE).*
 
 .PHONY: dist
 dist: install $(DIST_FILES)
@@ -156,12 +147,12 @@ $(DIST_FILES): $(MODULES) pyproject.toml
 
 .PHONY: exe
 exe: install $(EXE_FILES)
-$(EXE_FILES): $(MODULES) $(PROJECT).spec
+$(EXE_FILES): $(MODULES) $(PACKAGE).spec
 	# For framework/shared support: https://github.com/yyuu/pyenv/wiki
-	poetry run pyinstaller $(PROJECT).spec --noconfirm --clean
+	poetry run pyinstaller $(PACKAGE).spec --noconfirm --clean
 
-$(PROJECT).spec:
-	poetry run pyi-makespec $(PACKAGE)/__main__.py --onefile --windowed --name=$(PROJECT)
+$(PACKAGE).spec:
+	poetry run pyi-makespec $(PACKAGE)/__main__.py --onefile --windowed --name=$(PACKAGE)
 
 # RELEASE #####################################################################
 
@@ -169,7 +160,7 @@ $(PROJECT).spec:
 upload: dist ## Upload the current version to PyPI
 	git diff --name-only --exit-code
 	poetry publish
-	bin/open https://pypi.org/project/$(PROJECT)
+	bin/open https://pypi.org/project/$(PACKAGE)
 
 # CLEANUP #####################################################################
 
@@ -182,7 +173,7 @@ clean-all: clean
 
 .PHONY: .clean-install
 .clean-install:
-	find $(PACKAGES) -name '__pycache__' -delete
+	find $(PACKAGE) tests -name '__pycache__' -delete
 	rm -rf *.egg-info
 
 .PHONY: .clean-test
