@@ -1,8 +1,8 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
-  coveragespace <owner/repo> <metric> [<value>] [--verbose] [--exit-code]
-  coveragespace <owner/repo> --reset [--verbose]
+  coveragespace set <metric> [<value>] [--verbose] [--exit-code]
+  coveragespace reset [--verbose]
   coveragespace view [--verbose]
   coveragespace (-h | --help)
   coveragespace (-V | --version)
@@ -21,21 +21,16 @@ from shutil import get_terminal_size
 
 import colorama
 import log
-from docopt import DocoptExit, docopt
+from docopt import docopt
 
-from . import API, VERSION, client, coverage, services
+from . import API, VERSION, client, coverage, repository, services
 
 
 def main():
     """Parse command-line arguments, configure logging, and run the program."""
     colorama.init(autoreset=True)
     arguments = docopt(__doc__, version=VERSION)
-
-    slug = arguments["<owner/repo>"]
-    verbose = arguments["--verbose"]
-    hardfail = arguments["--exit-code"]
-
-    log.init(level=log.DEBUG if verbose else log.WARNING)
+    log.init(level=log.DEBUG if arguments["--verbose"] else log.WARNING)
 
     if services.detected():
         log.info("Coverage check skipped when running on CI service")
@@ -43,19 +38,18 @@ def main():
 
     if arguments["view"]:
         success = view()
-    elif "/" in slug:
+    else:
+        slug = repository.get_slug()
         success = call(
             slug,
             arguments["<metric>"],
             arguments["<value>"],
-            arguments["--reset"],
-            verbose,
-            hardfail,
+            arguments["reset"],
+            arguments["--verbose"],
+            arguments["--exit-code"],
         )
-    else:
-        raise DocoptExit("<owner/repo> slug must contain a slash" + "\n")
 
-    if not success and hardfail:
+    if not success and arguments["--exit-code"]:
         sys.exit(1)
 
 
@@ -81,8 +75,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
     if response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
-        message = "To reset metrics, run: ^coveragespace {} --reset$".format(slug)
-        data["help"] = message  # type: ignore
+        data["help"] = "To reset metrics, run: ^coveragespace reset$"  # type: ignore
         display("coverage decreased", data, color)
         coverage.launch_report()
         return False

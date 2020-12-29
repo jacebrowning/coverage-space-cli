@@ -90,21 +90,21 @@ test-unit: install
 	@ ( mv $(FAILURES) $(FAILURES).bak || true ) > /dev/null 2>&1
 	poetry run pytest $(PACKAGE) $(PYTEST_OPTIONS)
 	@ ( mv $(FAILURES).bak $(FAILURES) || true ) > /dev/null 2>&1
-	poetry run coveragespace $(REPOSITORY) unit
+	poetry run coveragespace set unit
 
 .PHONY: test-int
 test-int: install
 	@ if test -e $(FAILURES); then poetry run pytest tests $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
 	poetry run pytest tests $(PYTEST_OPTIONS)
-	poetry run coveragespace $(REPOSITORY) integration
+	poetry run coveragespace set integration
 
 .PHONY: test-all
 test-all: install
 	@ if test -e $(FAILURES); then poetry run pytest $(PACKAGES) $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
 	poetry run pytest $(PACKAGES) $(PYTEST_OPTIONS)
-	poetry run coveragespace $(REPOSITORY) overall
+	poetry run coveragespace set overall
 
 .PHONY: read-coverage
 read-coverage:
