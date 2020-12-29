@@ -45,13 +45,15 @@ class BasePlugin(ABC):  # pylint: disable=no-init
         raise NotImplementedError
 
 
-def get_coverage(cwd=None):
+def get_coverage(cwd=None, *, always=False) -> float:
     """Extract the current coverage data."""
     cwd = cwd or os.getcwd()
 
-    plugin = _find_plugin(cwd)
-    percentage = plugin.get_coverage(cwd)
+    plugin = _find_plugin(cwd, allow_missing=always)
+    if plugin is None:
+        return 0.0
 
+    percentage = plugin.get_coverage(cwd)
     return round(percentage, 1)
 
 
@@ -64,7 +66,7 @@ def launch_report(cwd=None, *, always=False):
     if plugin:
         report = plugin.get_report(cwd)
 
-        if report and (always or not _launched_recently(report)):
+        if report and (not _launched_recently(report) or always):
             log.info("Launching report: %s", report)
             webbrowser.open("file://" + report, new=2, autoraise=True)
         elif always:
@@ -90,8 +92,8 @@ def _find_plugin(cwd, allow_missing=False):
 def _launched_recently(path):
     now = time.time()
     then = cache.get(path, default=0)
-    elapsed = now - then
-    log.debug("Last launched %s seconds ago", elapsed)
+    elapsed = round(now - then, 1)
+    log.info("Report last launched %s seconds ago", elapsed)
     cache.set(path, now)
     return elapsed < 60 * 60  # 1 hour
 

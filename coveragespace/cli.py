@@ -1,6 +1,7 @@
 """Update project metrics on The Coverage Space.
 
 Usage:
+  coveragespace [--verbose]
   coveragespace set <metric> [<value>] [--verbose] [--exit-code]
   coveragespace reset [--verbose]
   coveragespace view [--verbose]
@@ -40,32 +41,46 @@ def main():
         success = view()
     else:
         slug = repository.get_slug()
-        success = call(
-            slug,
-            arguments["<metric>"],
-            arguments["<value>"],
-            arguments["reset"],
-            arguments["--verbose"],
-            arguments["--exit-code"],
-        )
+        if arguments["set"]:
+            success = call(
+                slug,
+                arguments["<metric>"],
+                arguments["<value>"],
+                verbose=arguments["--verbose"],
+                hardfail=arguments["--exit-code"],
+            )
+        elif arguments["reset"]:
+            success = call(slug, reset=True)
+        else:
+            success = call(slug, launch=True)
 
     if not success and arguments["--exit-code"]:
         sys.exit(1)
 
 
-def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
+def call(
+    slug: str,
+    metric: str = "overall",
+    value: float = 0,
+    *,
+    reset: bool = False,
+    launch: bool = False,
+    verbose: bool = False,
+    hardfail: bool = False,
+):
     """Call the API and display errors."""
     url = "{}/{}".format(API, slug)
     if reset:
-        data = {metric: None}
-        response = client.delete(url, data)
+        response = client.delete(url)
     else:
-        data = {metric: value or coverage.get_coverage()}
-        response = client.get(url, data)
+        data = {metric: value or coverage.get_coverage(always=launch)}
+        response = client.put(url, data)
 
     if response.status_code == 200:
-        if verbose:
-            display("coverage increased", response.json(), colorama.Fore.GREEN)
+        if verbose or launch:
+            display("coverage updated", response.json(), colorama.Fore.GREEN)
+        if launch:
+            coverage.launch_report(always=True)
         return True
 
     if response.status_code == 202:
@@ -77,7 +92,7 @@ def call(slug, metric, value, reset=False, verbose=False, hardfail=False):
         data = response.json()
         data["help"] = "To reset metrics, run: ^coveragespace reset$"  # type: ignore
         display("coverage decreased", data, color)
-        coverage.launch_report()
+        coverage.launch_report(always=launch)
         return False
 
     try:
