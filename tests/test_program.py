@@ -44,8 +44,15 @@ def cli(env, *args):
 
 
 def describe_cli():
-    def it_fails_when_missing_arguments(env):
+    def it_displays_metrics_and_launches_local_report(env):
         cmd = cli(env)
+
+        expect(cmd.returncode) == 0
+        expect(cmd.stderr) == ""
+        expect(cmd.stdout).contains("coverage updated")
+
+    def it_fails_with_unknown_arguments(env):
+        cmd = cli(env, "foobar")
 
         expect(cmd.returncode) == 1
         expect(cmd.stderr).contains("Usage:")
@@ -78,7 +85,7 @@ def describe_cli():
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) != ""  # expect lots of logging
-            expect(cmd.stdout).contains("coverage increased")
+            expect(cmd.stdout).contains("coverage updated")
 
         def it_skips_when_running_on_ci(env):
             env.environ["CI"] = "true"

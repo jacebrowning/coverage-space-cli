@@ -11,8 +11,8 @@ from .cache import Cache
 cache = Cache()
 
 
-def get(url, data):
-    log.info("Getting %s: %s", url, data)
+def put(url, data):
+    log.info("PUT %s: %s", url, data)
 
     response = cache.get((url, data))
     if response is None:
@@ -29,11 +29,11 @@ def get(url, data):
     return response
 
 
-def delete(url, data):
-    log.info("Deleting %s: %s", url, data)
+def delete(url):
+    log.info("DELETE %s", url)
 
     for delay in [1, 3, 5]:
-        response = requests.delete(url, data=data)
+        response = requests.delete(url)
         if response.status_code == 500:
             time.sleep(delay)
             continue
