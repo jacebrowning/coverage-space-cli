@@ -59,14 +59,14 @@ def describe_cli():
 
     def describe_update():
         def it_can_update_metrics(env):
-            cmd = cli(env, "set", "unit", "100")
+            cmd = cli(env, "update", "unit", "100")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
             expect(cmd.stdout) == ""
 
         def it_indicates_when_metrics_decrease(env):
-            cmd = cli(env, "set", "unit", "0")
+            cmd = cli(env, "update", "unit", "0")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) == ""
@@ -74,14 +74,14 @@ def describe_cli():
             expect(cmd.stdout).contains("To reset metrics, run: coveragespace reset")
 
         def it_fails_when_metrics_decrease_if_requested(env):
-            cmd = cli(env, "set", "unit", "0", "--exit-code")
+            cmd = cli(env, "update", "unit", "0", "--exit-code")
 
             expect(cmd.returncode) == 1
             expect(cmd.stderr) == ""
             expect(cmd.stdout).contains("coverage decreased")
 
         def it_always_display_metrics_when_verbose(env):
-            cmd = cli(env, "set", "unit", "100", "--verbose")
+            cmd = cli(env, "update", "unit", "100", "--verbose")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr) != ""  # expect lots of logging
@@ -90,7 +90,7 @@ def describe_cli():
         def it_skips_when_running_on_ci(env):
             env.environ["CI"] = "true"
 
-            cmd = cli(env, "set", "unit", "0", "--exit-code", "--verbose")
+            cmd = cli(env, "update", "unit", "0", "--exit-code", "--verbose")
 
             expect(cmd.returncode) == 0
             expect(cmd.stderr).contains("Coverage check skipped")

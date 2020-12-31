@@ -5,13 +5,15 @@ import time
 import log
 import requests
 
+from . import API
 from .cache import Cache
 
 
 cache = Cache()
 
 
-def put(url, data):
+def put(slug: str, data):
+    url = "{}/{}".format(API, slug)
     log.info("PUT %s: %s", url, data)
 
     response = cache.get((url, data))
@@ -29,7 +31,8 @@ def put(url, data):
     return response
 
 
-def delete(url):
+def delete(slug: str):
+    url = "{}/{}".format(API, slug)
     log.info("DELETE %s", url)
 
     for delay in [1, 3, 5]:

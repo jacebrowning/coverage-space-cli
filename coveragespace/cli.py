@@ -2,7 +2,7 @@
 
 Usage:
   coveragespace [--verbose]
-  coveragespace set <metric> [<value>] [--verbose] [--exit-code]
+  coveragespace update <metric> [<value>] [--verbose] [--exit-code]
   coveragespace reset [--verbose]
   coveragespace view [--verbose]
   coveragespace (-h | --help)
@@ -24,7 +24,7 @@ import colorama
 import log
 from docopt import docopt
 
-from . import API, VERSION, client, coverage, repository, services
+from . import VERSION, api, coverage, repository, services
 
 
 def main():
@@ -41,7 +41,7 @@ def main():
         success = view()
     else:
         slug = repository.get_slug()
-        if arguments["set"]:
+        if arguments["update"]:
             success = call(
                 slug,
                 arguments["<metric>"],
@@ -69,12 +69,11 @@ def call(
     hardfail: bool = False,
 ):
     """Call the API and display errors."""
-    url = "{}/{}".format(API, slug)
     if reset:
-        response = client.delete(url)
+        response = api.delete(slug)
     else:
         data = {metric: value or coverage.get_coverage(always=launch)}
-        response = client.put(url, data)
+        response = api.put(slug, data)
 
     if response.status_code == 200:
         if verbose or launch:

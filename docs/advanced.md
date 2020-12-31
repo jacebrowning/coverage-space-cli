@@ -29,7 +29,7 @@ $ coveragespace reset
 To always display the coverage results, use the `--verbose` option:
 
 ```text
-$ coveragespace set <metric> --verbose
+$ coveragespace update <metric> --verbose
 ```
 
 ## Exit Codes
@@ -37,5 +37,5 @@ $ coveragespace set <metric> --verbose
 To return a non-zero exit code when coverage decreases, use the `--exit-code` option:
 
 ```text
-$ coveragespace set <metric> --exit-code
+$ coveragespace update <metric> --exit-code
 ```

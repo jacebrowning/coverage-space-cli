@@ -33,7 +33,7 @@ $ poetry add coveragespace
 To update the value for a test coverage metric:
 
 ```text
-$ coveragespace set <metric>
+$ coveragespace update <metric>
 ```
 
 where `<metric>` is one of:
@@ -45,11 +45,11 @@ where `<metric>` is one of:
 For example, after running unit tests with code coverage enabled:
 
 ```text
-$ coveragespace set unit
+$ coveragespace update unit
 ```
 
 which will attempt to extract the current coverage data from your project directory and compare that with the last known value. The coverage value can also be manually specified:
 
 ```text
-$ coveragespace set <metric> <value>
+$ coveragespace update <metric> <value>
 ```
