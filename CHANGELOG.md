@@ -1,6 +1,6 @@
 # Revision History
 
-## 4.0 (beta)
+## 4.0 (2020-12-31)
 
 - **BREAKING:** Removed `<owner/repo>` CLI argument in favor of automatic detection.
 - Updated the default CLI command to display metrics and launch the report.
