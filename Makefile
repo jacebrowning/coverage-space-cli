@@ -32,6 +32,7 @@ DEPENDENCIES := $(VIRTUAL_ENV)/.poetry-$(shell bin/checksum pyproject.toml poetr
 install: $(DEPENDENCIES) .cache
 
 $(DEPENDENCIES): poetry.lock
+	@ rm -rf $(VIRTUAL_ENV)/.poetry-*
 	@ poetry config virtualenvs.in-project true
 	poetry install
 	@ touch $@
@@ -81,21 +82,27 @@ test-unit: install
 	@ ( mv $(FAILURES) $(FAILURES).bak || true ) > /dev/null 2>&1
 	poetry run pytest $(PACKAGE) $(PYTEST_OPTIONS)
 	@ ( mv $(FAILURES).bak $(FAILURES) || true ) > /dev/null 2>&1
+ifndef DISABLE_COVERAGE
 	poetry run coveragespace update unit
+endif
 
 .PHONY: test-int
 test-int: install
 	@ if test -e $(FAILURES); then poetry run pytest tests $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
 	poetry run pytest tests $(PYTEST_OPTIONS)
+ifndef DISABLE_COVERAGE
 	poetry run coveragespace update integration
+endif
 
 .PHONY: test-all
 test-all: install
 	@ if test -e $(FAILURES); then poetry run pytest $(PACKAGE) tests $(PYTEST_RERUN_OPTIONS); fi
 	@ rm -rf $(FAILURES)
 	poetry run pytest $(PACKAGE) tests $(PYTEST_OPTIONS)
+ifndef DISABLE_COVERAGE
 	poetry run coveragespace update overall
+endif
 
 .PHONY: read-coverage
 read-coverage:
@@ -119,8 +126,8 @@ $(MKDOCS_INDEX): docs/requirements.txt mkdocs.yml docs/*.md
 	poetry run mkdocs build --clean --strict
 
 docs/requirements.txt: poetry.lock
-	@ poetry run pip list --format=freeze | grep mkdocs > $@
-	@ poetry run pip list --format=freeze | grep Pygments >> $@
+	@ poetry export --dev --without-hashes | grep mkdocs > $@
+	@ poetry export --dev --without-hashes | grep pygments >> $@
 
 .PHONY: uml
 uml: install docs/*.png
