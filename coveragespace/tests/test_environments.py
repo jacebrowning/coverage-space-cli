@@ -2,10 +2,10 @@
 
 from expecter import expect
 
-from .. import services
+from .. import environments
 
 
-def describe_detected():
+def describe_ci():
     def when_off_ci(monkeypatch):
         monkeypatch.delenv("APPVEYOR", raising=False)
         monkeypatch.delenv("CI", raising=False)
@@ -13,9 +13,9 @@ def describe_detected():
         monkeypatch.delenv("TRAVIS", raising=False)
         monkeypatch.delenv("DISABLE_COVERAGE", raising=False)
 
-        expect(services.detected()) == False
+        expect(environments.ci()) == False
 
     def when_on_ci(monkeypatch):
         monkeypatch.setenv("TRAVIS", "true")
 
-        expect(services.detected()) == True
+        expect(environments.ci()) == True

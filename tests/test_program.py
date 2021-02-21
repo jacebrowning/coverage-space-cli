@@ -96,6 +96,14 @@ def describe_cli():
             expect(cmd.stderr).contains("Coverage check skipped")
             expect(cmd.stdout) == ""
 
+        def it_detects_when_invoked_by_poetry(env):
+            env.environ["POETRY_ACTIVE"] = "true"
+
+            cmd = cli(env, "update", "unit", "0")
+
+            expect(cmd.returncode) == 0
+            expect(cmd.stdout).contains("run: poetry run coveragespace reset")
+
     def describe_reset():
         def it_can_reset_metrics(env_reset):
             cmd = cli(env_reset, "reset")
