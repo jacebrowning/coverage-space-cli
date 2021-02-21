@@ -1,5 +1,9 @@
 # Revision History
 
+## 4.1 (2021-02-21)
+
+- Updated CLI help text to suggest invoking by Poetry when appropriate.
+
 ## 4.0 (2020-12-31)
 
 - **BREAKING:** Removed `<owner/repo>` CLI argument in favor of automatic detection.

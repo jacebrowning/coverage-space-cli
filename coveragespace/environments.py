@@ -1,6 +1,7 @@
-"""Utilities to detect when this program is running on external services."""
+"""Utilities to detect the environment this program is running on."""
 
 import os
+from pathlib import Path
 
 
 CONTINUOUS_INTEGRATION = [
@@ -19,5 +20,9 @@ CONTINUOUS_INTEGRATION = [
 ]
 
 
-def detected():
+def ci():
     return any(name in CONTINUOUS_INTEGRATION for name in os.environ)
+
+
+def poetry():
+    return "POETRY_ACTIVE" in os.environ or Path("poetry.lock").exists()

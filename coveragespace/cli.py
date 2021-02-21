@@ -24,7 +24,7 @@ import colorama
 import log
 from docopt import docopt
 
-from . import VERSION, api, coverage, repository, services
+from . import VERSION, api, coverage, environments, repository
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
     arguments = docopt(__doc__, version=VERSION)
     log.init(level=log.DEBUG if arguments["--verbose"] else log.WARNING)
 
-    if services.detected():
+    if environments.ci():
         log.info("Coverage check skipped when running on CI service")
         sys.exit()
 
@@ -89,7 +89,8 @@ def call(
     if response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
-        data["help"] = "To reset metrics, run: ^coveragespace reset$"  # type: ignore
+        prefix = "poetry run " if environments.poetry() else ""
+        data["help"] = f"To reset metrics, run: ^{prefix}coveragespace reset$"  # type: ignore
         display("coverage decreased", data, color)
         coverage.launch_report(always=launch)
         return False
