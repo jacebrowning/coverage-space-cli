@@ -1,6 +1,6 @@
 # Revision History
 
-## 4.2 (beta)
+## 4.2 (2021-06-05)
 
 - Updated the CoveragePy plugin to walk the filesystem in search of `htmlcov/index.html`.
 
