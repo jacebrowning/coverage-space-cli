@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "4.1"
+version = "4.2b1"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -67,7 +67,7 @@ scripttest = "*"
 
 # Documentation
 mkdocs = "^1.0"
-pygments = "*"
+pygments = "^2.9"
 
 # Tooling
 pyinstaller = "*"

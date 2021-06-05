@@ -116,11 +116,12 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
         return total
 
     def get_report(self, cwd):
-        path = os.path.join(cwd, "htmlcov", "index.html")
+        for root, _, _ in os.walk(cwd):
+            path = os.path.join(root, "htmlcov", "index.html")
 
-        if os.path.isfile(path):
-            log.info("Found coverage report: %s", path)
-            return path
+            if os.path.isfile(path):
+                log.info("Found coverage report: %s", path)
+                return path
 
         log.info("No coverage report found: %s", cwd)
         return None

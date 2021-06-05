@@ -1,5 +1,9 @@
 # Revision History
 
+## 4.2 (beta)
+
+- Updated the CoveragePy plugin to walk the filesystem in search of `htmlcov/index.html`.
+
 ## 4.1 (2021-02-21)
 
 - Updated CLI help text to suggest invoking by Poetry when appropriate.
