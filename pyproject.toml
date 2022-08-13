@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "4.2"
+version = "5.0b1"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"
@@ -27,10 +27,10 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Topic :: Software Development",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Testing",
@@ -38,24 +38,26 @@ classifiers = [
 
 [tool.poetry.dependencies]
 
-python = "^3.6"
+python = "^3.7"
 
 colorama = ">=0.4"
 coverage = ">=4.0"
 docopt = ">=0.6"
 minilog = "^2.0"
-requests = "^2.0"
+requests = "^2.28"
 
 [tool.poetry.dev-dependencies]
 
 # Formatters
-black = "=20.8b1"
-isort = "=5.5.1"
+black = "^22.6"
+isort = "^5.10"
 
 # Linters
 mypy = "*"
 pydocstyle = "*"
 pylint = "^2.6"
+types-requests = "*"
+types-setuptools = "*"
 
 # Testing
 pytest = "^5.0"
