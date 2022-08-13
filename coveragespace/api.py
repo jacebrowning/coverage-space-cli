@@ -8,7 +8,6 @@ import requests
 from . import API
 from .cache import Cache
 
-
 cache = Cache()
 
 
