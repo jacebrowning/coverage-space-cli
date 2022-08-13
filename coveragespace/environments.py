@@ -3,7 +3,6 @@
 import os
 from pathlib import Path
 
-
 CONTINUOUS_INTEGRATION = [
     # General
     "CI",
