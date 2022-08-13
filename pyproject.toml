@@ -68,7 +68,7 @@ pytest-random = "*"
 scripttest = "*"
 
 # Documentation
-mkdocs = "^1.0"
+mkdocs = "^1.3"
 pygments = "^2.9"
 
 # Tooling
