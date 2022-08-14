@@ -1,5 +1,9 @@
 # Revision History
 
+## 5.0 (2022-08-14)
+
+- Dropped support for Python 3.6.
+
 ## 4.2 (2021-06-05)
 
 - Updated the CoveragePy plugin to walk the filesystem in search of `htmlcov/index.html`.
