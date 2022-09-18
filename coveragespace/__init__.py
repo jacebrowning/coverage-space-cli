@@ -1,11 +1,14 @@
-from pkg_resources import DistributionNotFound, get_distribution
+from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = get_distribution("coveragespace").version
-except DistributionNotFound:  # pragma: no cover
+    __version__ = version("coveragespace")
+except PackageNotFoundError:  # pragma: no cover
     __version__ = "(local)"
 
 CLI = "coveragespace"
 API = "https://api.coverage.space"
 
 VERSION = "{0} v{1}".format(CLI, __version__)
+
+del PackageNotFoundError
+del version

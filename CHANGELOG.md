@@ -1,5 +1,9 @@
 # Revision History
 
+## 6.0 (2022-09-18)
+
+- Dropped support for Python 3.7.
+
 ## 5.0 (2022-08-14)
 
 - Dropped support for Python 3.6.
