@@ -1,5 +1,9 @@
 # Revision History
 
+## 6.0.1 (2022-11-23)
+
+- Loosened the `minilog` dependency.
+
 ## 6.0 (2022-09-18)
 
 - Dropped support for Python 3.7.
