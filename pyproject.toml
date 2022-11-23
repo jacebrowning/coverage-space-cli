@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "coveragespace"
-version = "6.0.1"
+version = "6.0.2"
 description = "A place to track your code coverage metrics."
 
 license = "MIT"

@@ -47,6 +47,9 @@ class Git(Plugin):
     def get_slug(self, cwd: Path) -> str:
         config = configparser.ConfigParser()
         config.read(cwd / ".git" / "config")
-        url = config['remote "origin"']["url"]
+        try:
+            url = config['remote "origin"']["url"]
+        except KeyError:
+            url = config['branch "main"']["remote"]
         parts = url.replace(".git", "").split("/")
         return "/".join(parts[-2:])

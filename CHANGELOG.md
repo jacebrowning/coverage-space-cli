@@ -1,5 +1,9 @@
 # Revision History
 
+## 6.0.2 (2022-11-13)
+
+- Fixed handling of Git directories lacking an origin.
+
 ## 6.0.1 (2022-11-23)
 
 - Loosened the `minilog` dependency.
