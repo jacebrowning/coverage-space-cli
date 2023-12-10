@@ -68,7 +68,7 @@ scripttest = "*"
 
 # Documentation
 mkdocs = "^1.4"
-pygments = "^2.9"
+pygments = "^2.15"
 
 # Tooling
 pyinstaller = "*"
