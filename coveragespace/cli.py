@@ -77,19 +77,30 @@ def call(
 
     if response.status_code == 200:
         if verbose or launch:
-            display("coverage updated", response.json(), colorama.Fore.GREEN)
+            data = response.json()
+            report = coverage.get_report()
+            if report:
+                data["report"] = report
+            display("coverage updated", data, colorama.Fore.GREEN)
         if launch:
             coverage.launch_report(always=True)
         return True
 
     if response.status_code == 202:
-        display("coverage reset", response.json(), colorama.Fore.BLUE)
+        data = response.json()
+        report = coverage.get_report()
+        if report:
+            data["report"] = report
+        display("coverage reset", data, colorama.Fore.BLUE)
         return True
 
     if response.status_code == 422:
         color = colorama.Fore.RED if hardfail else colorama.Fore.YELLOW
         data = response.json()
         prefix = "poetry run " if environments.poetry() else ""
+        report = coverage.get_report()
+        if report:
+            data["report"] = report
         data["help"] = f"To reset metrics, run: ^{prefix}coveragespace reset$"  # type: ignore
         display("coverage decreased", data, color)
         coverage.launch_report(always=launch)
