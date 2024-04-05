@@ -56,6 +56,15 @@ def get_coverage(cwd=None, *, always=False) -> float:
     return round(percentage, 1)
 
 
+def get_report(cwd=None):
+    """Get the full path to the coverage report.."""
+    cwd = cwd or os.getcwd()
+
+    plugin = _find_plugin(cwd, allow_missing=True)
+
+    return plugin.get_report(cwd) if plugin else None
+
+
 def launch_report(cwd=None, *, always=False):
     """Open the generated coverage report in a web browser."""
     cwd = cwd or os.getcwd()

@@ -1,5 +1,9 @@
 # Revision History
 
+## 6.1 (2024-04-04)
+
+- Added a `report` link when coverage decreases.
+
 ## 6.0.2 (2022-11-13)
 
 - Fixed handling of Git directories lacking an origin.
