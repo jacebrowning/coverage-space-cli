@@ -18,9 +18,9 @@ class MockCoverage(Mock):
 @pytest.fixture
 def coveragepy_data(tmpdir):
     cwd = tmpdir.chdir()
-    with open("foobar.py", "w") as stream:
+    with open("foobar.py", "w", encoding="utf-8") as stream:
         pass
-    with open(".coverage", "w") as stream:
+    with open(".coverage", "w", encoding="utf-8") as stream:
         stream.write(
             """
             !coverage.py: This is a private format, don\'t read it directly!
@@ -32,9 +32,9 @@ def coveragepy_data(tmpdir):
 @pytest.fixture
 def coveragepy_data_custom(tmpdir):
     cwd = tmpdir.chdir()
-    with open("foobar.py", "w") as stream:
+    with open("foobar.py", "w", encoding="utf-8") as stream:
         pass
-    with open(".coveragerc", "w") as stream:
+    with open(".coveragerc", "w", encoding="utf-8") as stream:
         stream.write(
             """
             [run]
@@ -42,7 +42,7 @@ def coveragepy_data_custom(tmpdir):
             """
         )
     os.makedirs(".cache")
-    with open(".cache/coverage", "w") as stream:
+    with open(".cache/coverage", "w", encoding="utf-8") as stream:
         stream.write(
             """
             !coverage.py: This is a private format, don\'t read it directly!

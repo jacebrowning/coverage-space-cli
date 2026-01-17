@@ -8,7 +8,7 @@ MODULES := $(wildcard $(PACKAGE)/*.py)
 all: doctor format check test mkdocs ## Run all tasks that determine CI status
 
 .PHONY: dev
-dev: install ## Continuously run CI tasks when files chanage
+dev: install ## Continuously run CI tasks when files change
 	poetry run sniffer
 
 # SYSTEM DEPENDENCIES #########################################################
@@ -31,7 +31,7 @@ DEPENDENCIES := $(VIRTUAL_ENV)/.poetry-$(shell bin/checksum pyproject.toml poetr
 .PHONY: install
 install: $(DEPENDENCIES) .cache ## Install project dependencies
 
-$(DEPENDENCIES): poetry.lock
+$(DEPENDENCIES): poetry.lock docs/requirements.txt
 	@ rm -rf $(VIRTUAL_ENV)/.poetry-*
 	@ rm -rf ~/Library/Preferences/pypoetry
 	@ poetry config virtualenvs.in-project true
@@ -40,8 +40,14 @@ $(DEPENDENCIES): poetry.lock
 
 ifndef CI
 poetry.lock: pyproject.toml
-	poetry lock --no-update
+	poetry lock
 	@ touch $@
+
+docs/requirements.txt: poetry.lock
+	@ rm -f $@
+	@ poetry export --all-groups --without-hashes | grep jinja2 >> $@
+	@ poetry export --all-groups --without-hashes | grep mkdocs >> $@
+	@ poetry export --all-groups --without-hashes | grep pygments >> $@
 endif
 
 .cache:
@@ -113,7 +119,7 @@ format: install
 	@ echo
 
 .PHONY: check
-check: install format ## Run formaters, linters, and static analysis
+check: install format ## Run formatters, linters, and static analysis
 ifdef CI
 	git diff --exit-code
 endif
@@ -142,10 +148,6 @@ $(MKDOCS_INDEX): docs/requirements.txt mkdocs.yml docs/*.md
 	@ cd docs/about && ln -sf ../../LICENSE.md license.md
 	poetry run mkdocs build --clean --strict
 
-docs/requirements.txt: poetry.lock
-	@ poetry export --with dev --without-hashes | grep mkdocs > $@
-	@ poetry export --with dev --without-hashes | grep pygments >> $@
-	@ poetry export --with dev --without-hashes | grep jinja2 >> $@
 
 .PHONY: uml
 uml: install docs/*.png
