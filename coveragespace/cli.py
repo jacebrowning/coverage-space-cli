@@ -118,7 +118,7 @@ def call(
 def display(title, data, color=""):
     """Write colored text to the console."""
     width, _ = get_terminal_size()
-    header = color + "{0:=^{1}}".format(" " + title + " ", width)
+    header = color + f"{' ' + title + ' ':=^{width}}"
     header = header.replace(
         title, colorama.Style.BRIGHT + title + colorama.Style.NORMAL
     )

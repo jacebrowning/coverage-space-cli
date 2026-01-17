@@ -8,7 +8,7 @@ except PackageNotFoundError:  # pragma: no cover
 CLI = "coveragespace"
 API = "https://api.coverage.space"
 
-VERSION = "{0} v{1}".format(CLI, __version__)
+VERSION = f"{CLI} v{__version__}"
 
 del PackageNotFoundError
 del version

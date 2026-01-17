@@ -13,7 +13,7 @@ from .cache import Cache
 cache = Cache()
 
 
-class BasePlugin(ABC):  # pylint: disable=no-init
+class BasePlugin(ABC):
     """Base class for coverage plugins."""
 
     @abstractmethod
@@ -88,7 +88,7 @@ def _find_plugin(cwd, allow_missing=False):
         if plugin.matches(cwd):
             return plugin
 
-    msg = "No coverage data found: {}".format(cwd)
+    msg = f"No coverage data found: {cwd}"
     log.info(msg)
 
     if allow_missing:
@@ -106,7 +106,7 @@ def _launched_recently(path):
     return elapsed < 60 * 60  # 1 hour
 
 
-class CoveragePy(BasePlugin):  # pylint: disable=no-init
+class CoveragePy(BasePlugin):
     """Coverage extractor for the coverage.py format."""
 
     def matches(self, cwd):
@@ -118,7 +118,7 @@ class CoveragePy(BasePlugin):  # pylint: disable=no-init
         cov = coverage.Coverage()
         cov.load()
 
-        with open(os.devnull, "w") as ignore:
+        with open(os.devnull, "w", encoding="utf-8") as ignore:
             total = cov.report(file=ignore)
 
         return total

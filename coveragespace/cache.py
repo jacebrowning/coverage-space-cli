@@ -65,5 +65,4 @@ class Cache:
             url, data = key
         except ValueError:
             return key
-        else:
-            return url, tuple(data.items())
+        return url, tuple(data.items())
