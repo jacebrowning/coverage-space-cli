@@ -1,5 +1,9 @@
 # Revision History
 
+## 6.2 (beta)
+
+- Added handling for duplicates in the Git config.
+
 ## 6.1 (2024-04-04)
 
 - Added a `report` link when coverage decreases.

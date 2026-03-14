@@ -1,7 +1,16 @@
 {
     "cSpell.words": [
+        "colorama",
+        "coveragespace",
+        "docopt",
         "Graphviz",
+        "htmlcov",
+        "isort",
+        "Jace",
+        "mypy",
+        "pydocstyle",
         "pylint",
+        "setuptools",
         "venv"
     ]
 }

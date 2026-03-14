@@ -39,6 +39,20 @@ def describe_get_slug():
         )
         expect(get_slug()) == "owner/project"
 
+    def it_handles_duplicate_options_in_git_config(expect, git_config):
+        git_config.write_text(
+            """
+            [remote "origin"]
+                url = https://github.com/owner/project.git
+            [branch "main"]
+                remote = origin
+                merge = refs/heads/main
+                vscode-merge-base = abc123
+                vscode-merge-base = def456
+            """
+        )
+        expect(get_slug()) == "owner/project"
+
     def it_raise_an_exception_when_no_match(expect, unknown_data):
         with expect.raises(RuntimeError):
             get_slug()
