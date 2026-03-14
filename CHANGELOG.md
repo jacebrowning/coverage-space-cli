@@ -1,6 +1,6 @@
 # Revision History
 
-## 6.2 (beta)
+## 6.2 (2026-03-14)
 
 - Added handling for duplicates in the Git config.
 - Dropped support for Python 3.8 and 3.9.
