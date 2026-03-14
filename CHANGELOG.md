@@ -1,5 +1,10 @@
 # Revision History
 
+## 6.2 (2026-03-14)
+
+- Added handling for duplicates in the Git config.
+- Dropped support for Python 3.8 and 3.9.
+
 ## 6.1 (2024-04-04)
 
 - Added a `report` link when coverage decreases.

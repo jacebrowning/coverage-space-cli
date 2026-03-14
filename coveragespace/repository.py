@@ -45,7 +45,7 @@ class Git(Plugin):
         return ".git" in os.listdir(cwd)
 
     def get_slug(self, cwd: Path) -> str:
-        config = configparser.ConfigParser()
+        config = configparser.ConfigParser(strict=False)
         config.read(cwd / ".git" / "config")
         try:
             url = config['remote "origin"']["url"]
