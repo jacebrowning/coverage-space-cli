@@ -3,6 +3,7 @@
 ## 6.2 (beta)
 
 - Added handling for duplicates in the Git config.
+- Dropped support for Python 3.8 and 3.9.
 
 ## 6.1 (2024-04-04)
 
