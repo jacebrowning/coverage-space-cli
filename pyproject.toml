@@ -60,7 +60,7 @@ types-requests = "*"
 types-setuptools = "*"
 
 # Testing
-pytest = "^8.0"
+pytest = ">=8,<10"
 pytest-cov = "*"
 pytest-describe = "^2.0"
 pytest-expecter = "*"
